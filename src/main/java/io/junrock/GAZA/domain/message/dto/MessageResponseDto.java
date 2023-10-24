@@ -17,12 +17,12 @@ public class MessageResponseDto {
     private String content;
     private LocalDateTime createDt;
     private LocalDateTime updateDt;
-    private Member member;
+    private String username;
 
     public MessageResponseDto(Message message) {
         this.content = message.getContent();
         this.createDt=message.getCreateDt();
         this.updateDt=message.getUpdateDt();
-        this.member=message.getMember();
+        this.username=message.getMember().getUsername();
     }
 }

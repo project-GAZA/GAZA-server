@@ -25,13 +25,22 @@ public class MessageService {
     public Long write(MessageDto messageDto,String email) {
         Member member=memberRepository.findByEmail(email)
                         .orElseThrow(()->new IllegalStateException("존재하지 않는 회원"));
+        if(messageDto.getContent().length()>100){
+           throw new IllegalStateException("메시지내용이 너무 깁니다!");
+        }
+
         Message message = messageDto.toEntity(member);
         return messageRepository.save(message).getMessageId();
     }
 
+    @Transactional(readOnly = true)
     public List<MessageResponseDto> findAll() {
        return messageRepository.findAll().stream()
                .map(MessageResponseDto::new)
                .collect(Collectors.toList());
+    }
+
+    public Long totalMessage() {
+       return messageRepository.count();
     }
 }
