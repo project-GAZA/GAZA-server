@@ -6,7 +6,6 @@ import io.junrock.GAZA.domain.donate.repository.DonateRepository;
 import io.junrock.GAZA.domain.member.entity.Member;
 import io.junrock.GAZA.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +23,7 @@ public class DonateService {
                 .donations(donateDto.getDonations())
                 .member(member)
                 .build();
-       return donateRepository.save(donate).getDonateId();
+        donateRepository.save(donate);
+       return donateRepository.sumDonations();
     }
 }
