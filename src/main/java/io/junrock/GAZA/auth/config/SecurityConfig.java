@@ -8,12 +8,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.filter.CorsFilter;
+
+import static io.junrock.GAZA.auth.Value.SwaggerUrlPatterns;
 
 
 @Configuration
@@ -31,6 +35,17 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer(){
+        return (web) -> web
+                .ignoring()
+                .antMatchers(
+                        "/h2-console/**",
+                        "/favicon.ico",
+                        "/swagger-ui/html"
+                );
     }
 
     @Bean
@@ -62,11 +77,12 @@ public class SecurityConfig {
                 .antMatchers("/auth/**").permitAll() // 로그인 api
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/api/**").authenticated()
+                .antMatchers(SwaggerUrlPatterns).permitAll()
+               // .antMatchers("/swagger-ui/html").permitAll()
                 //.requestMatchers(PathRequest.toH2Console()).permitAll()// h2-console, favicon.ico 요청 인증 무시
                 .antMatchers("/favicon.ico").permitAll()
 
                 .anyRequest().authenticated() // 그 외 인증 없이 접근X
-
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider)); // JwtFilter를 addFilterBefore로 등록했던 JwtSecurityConfig class 적용
 
