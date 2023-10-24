@@ -3,6 +3,7 @@ package io.junrock.GAZA.domain.member.service;
 import io.junrock.GAZA.domain.member.dto.MemberDto;
 import io.junrock.GAZA.domain.member.dto.MemberResponseDto;
 import io.junrock.GAZA.domain.member.dto.MemberInfoDto;
+import io.junrock.GAZA.domain.member.dto.NonMemberDto;
 import io.junrock.GAZA.domain.member.entity.Authority;
 import io.junrock.GAZA.domain.member.entity.Member;
 import io.junrock.GAZA.domain.member.repository.MemberRepository;
@@ -64,5 +65,37 @@ public class MemberService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(()->new IllegalStateException("존재하지 않는 회원"));
         return MemberInfoDto.map(member);
+    }
+
+    public NonMemberDto nonMember(NonMemberDto nonMemberDto) {  //비회원 회원가입
+        if (memberRepository.existsByEmail(nonMemberDto.getEmail())) {
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
+        if(nonMemberDto.getUsername()==null)
+            nonMemberDto.setUsername(getTempUsername());
+        Member member=Member.builder()
+                .email(nonMemberDto.getEmail())
+                .username(nonMemberDto.getUsername())
+                .password(passwordEncoder.encode(nonMemberDto.getPassword()))
+                .authorities(Collections.singleton(Authority.ROLE_USER))
+                .activated(true)
+                .build();
+
+        memberRepository.save(member);
+        return nonMemberDto;
+    }
+
+    public String getTempUsername() {
+        char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+        String str = "Guest";
+
+        int idx = 0;
+        for (int i = 0; i < 5; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
     }
 }
