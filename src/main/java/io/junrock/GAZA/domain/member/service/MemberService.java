@@ -29,7 +29,7 @@ public class MemberService {
 
         Member member = Member.builder()
                 .email(memberDto.getEmail())
-                .userName(memberDto.getUserName())
+                .username(memberDto.getUsername())
                 .password(passwordEncoder.encode(memberDto.getPassword()))
                 .activated(true)
                 .authorities(Collections.singleton(Authority.ROLE_USER))

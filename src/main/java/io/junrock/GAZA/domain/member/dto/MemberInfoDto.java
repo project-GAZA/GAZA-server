@@ -14,13 +14,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class MemberInfoDto {
     private String email;
-    private String userName;
+    private String username;
     private String password;
 
     public static MemberInfoDto map(Member member) {
         return MemberInfoDto.builder()
                 .email(member.getEmail())
-                .userName(member.getUserName())
+                .username(member.getUsername())
                 .password(member.getPassword())
                 .build();
     }

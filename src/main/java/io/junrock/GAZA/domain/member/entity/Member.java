@@ -25,7 +25,7 @@ public class Member extends BaseTimeEntity{
     private String email;
 
     @Column(name = "username")
-    private String userName;
+    private String username;
 
     @Column(name = "password")
     private String password;
@@ -39,7 +39,7 @@ public class Member extends BaseTimeEntity{
 
     public void memberUpdate(MemberInfoDto updateDto){
         this.email=updateDto.getEmail();
-        this.userName=updateDto.getUserName();
+        this.username=updateDto.getUsername();
         this.password=updateDto.getPassword();
     }
 }

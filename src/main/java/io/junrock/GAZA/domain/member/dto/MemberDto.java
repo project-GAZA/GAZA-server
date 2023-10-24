@@ -25,13 +25,13 @@ public class MemberDto {
 
     @NotNull
     @Size(min = 3, max = 50)
-    private String userName;
+    private String username;
 
     public Member toEntity(){
         return Member.builder()
                 .email(email)
                 .password(password)
-                .userName(userName)
+                .username(username)
                 .build();
     }
 }

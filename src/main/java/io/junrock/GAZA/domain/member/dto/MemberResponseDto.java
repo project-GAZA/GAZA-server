@@ -21,7 +21,7 @@ public class MemberResponseDto {
 
     public MemberResponseDto(Member member) {
         this.email=member.getEmail();
-        this.username=member.getUserName();
+        this.username=member.getUsername();
         this.createDt=member.getCreateDt();
         this.updateDt=member.getUpdateDt();
     }
