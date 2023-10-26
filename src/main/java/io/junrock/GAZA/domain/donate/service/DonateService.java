@@ -5,6 +5,7 @@ import io.junrock.GAZA.domain.donate.entity.Donate;
 import io.junrock.GAZA.domain.donate.repository.DonateRepository;
 import io.junrock.GAZA.domain.member.entity.Member;
 import io.junrock.GAZA.domain.member.repository.MemberRepository;
+import io.junrock.GAZA.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DonateService {
     private final DonateRepository donateRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     public Long donateMoney(DonateDto donateDto, String email) {
-        Member member=memberRepository.findByEmail(email)
-                .orElseThrow(()->new IllegalStateException("존재하지 않는 회원"));
+        Member member=memberService.getMember(email);
 
         Donate donate=Donate.builder()
                 .donations(donateDto.getDonations())

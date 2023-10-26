@@ -41,9 +41,7 @@ public class MemberService {
     }
 
     public MemberInfoDto updateMember(MemberInfoDto updateDto, String email) { //사용자 회원정보 수정
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원"));
-
+        Member member = getMember(email);
         member.memberUpdate(updateDto);
         return updateDto;
     }
@@ -55,15 +53,13 @@ public class MemberService {
     }
 
     public Long deleteMember(String email) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(()->new IllegalStateException("존재하지 않는 회원"));
+        Member member = getMember(email);
         memberRepository.delete(member);
         return member.getMemberId();
     }
 
     public MemberInfoDto findMember(String email) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(()->new IllegalStateException("존재하지 않는 회원"));
+        Member member = getMember(email);
         return MemberInfoDto.map(member);
     }
 
@@ -97,5 +93,10 @@ public class MemberService {
             str += charSet[idx];
         }
         return str;
+    }
+
+    public Member getMember(String email){
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 회원입니다.!"));
     }
 }

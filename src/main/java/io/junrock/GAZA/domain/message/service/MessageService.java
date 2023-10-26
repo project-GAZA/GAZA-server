@@ -3,6 +3,7 @@ package io.junrock.GAZA.domain.message.service;
 import io.junrock.GAZA.domain.member.dto.MemberResponseDto;
 import io.junrock.GAZA.domain.member.entity.Member;
 import io.junrock.GAZA.domain.member.repository.MemberRepository;
+import io.junrock.GAZA.domain.member.service.MemberService;
 import io.junrock.GAZA.domain.message.dto.MessageDto;
 import io.junrock.GAZA.domain.message.dto.MessageResponseDto;
 import io.junrock.GAZA.domain.message.entity.Message;
@@ -21,10 +22,9 @@ import java.util.stream.Collectors;
 @Transactional
 public class MessageService {
     private final MessageRepository messageRepository;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     public Long write(MessageDto messageDto,String email) {
-        Member member=memberRepository.findByEmail(email)
-                        .orElseThrow(()->new IllegalStateException("존재하지 않는 회원"));
+        Member member=memberService.getMember(email);
         if(messageDto.getContent().length()>100){
            throw new IllegalStateException("메시지내용이 너무 깁니다!");
         }
