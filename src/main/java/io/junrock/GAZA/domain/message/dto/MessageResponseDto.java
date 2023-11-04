@@ -1,6 +1,5 @@
 package io.junrock.GAZA.domain.message.dto;
 
-import io.junrock.GAZA.domain.member.entity.Member;
 import io.junrock.GAZA.domain.message.entity.Message;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,13 +15,13 @@ import java.time.LocalDateTime;
 public class MessageResponseDto {
     private String content;
     private LocalDateTime createDt;
-    private LocalDateTime updateDt;
     private String username;
+    private Integer likeCount;
 
     public MessageResponseDto(Message message) {
-        this.content = message.getContent();
+        this.content =message.getContent();
         this.createDt=message.getCreateDt();
-        this.updateDt=message.getUpdateDt();
-        this.username=message.getMember().getUsername();
+        this.username=message.getUsername();
+        this.likeCount=message.getLikeCount();
     }
 }

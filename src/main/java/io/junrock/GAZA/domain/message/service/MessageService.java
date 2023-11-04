@@ -1,19 +1,13 @@
 package io.junrock.GAZA.domain.message.service;
 
-import io.junrock.GAZA.domain.member.dto.MemberResponseDto;
-import io.junrock.GAZA.domain.member.entity.Member;
-import io.junrock.GAZA.domain.member.repository.MemberRepository;
-import io.junrock.GAZA.domain.member.service.MemberService;
+import io.junrock.GAZA.domain.message.dto.MessageCountDto;
 import io.junrock.GAZA.domain.message.dto.MessageDto;
 import io.junrock.GAZA.domain.message.dto.MessageResponseDto;
 import io.junrock.GAZA.domain.message.entity.Message;
 import io.junrock.GAZA.domain.message.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.websocket.server.ServerEndpoint;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,25 +16,36 @@ import java.util.stream.Collectors;
 @Transactional
 public class MessageService {
     private final MessageRepository messageRepository;
-    private final MemberService memberService;
-    public Long write(MessageDto messageDto,String email) {
-        Member member=memberService.getMember(email);
-        if(messageDto.getContent().length()>100){
-           throw new IllegalStateException("메시지내용이 너무 깁니다!");
-        }
 
-        Message message = messageDto.toEntity(member);
-        return messageRepository.save(message).getMessageId();
+    public Long write(MessageDto messageDto) { //글 작성
+        Message message = Message.builder()
+                .username(messageDto.getUsername()) //이름은 뒤에 #+PK값으로 중복확인
+                .content(messageDto.getContent())
+                .userRole("ROLE_USER")
+                .likeCount(0)
+                .build();
+        messageRepository.save(message);
+        message.messageUpdate(messageDto.getUsername()+"#"+message.getMessageId());
+        return message.getMessageId();
     }
 
     @Transactional(readOnly = true)
     public List<MessageResponseDto> findAll() {
-       return messageRepository.findAll().stream()
-               .map(MessageResponseDto::new)
-               .collect(Collectors.toList());
+        return messageRepository.findAll().stream()
+                .map(MessageResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     public Long totalMessage() {
-       return messageRepository.count();
+        return messageRepository.count();
+    }
+
+    public Integer getCount(Long messageId) {  //메시지 좋아요 기능 추가
+        Message message = messageRepository.findById(messageId).orElseThrow(()
+                -> new IllegalStateException("존재하지 않는 메시지입니다!"));
+        messageRepository.updateCount(messageId);
+        MessageCountDto messageCountDto=new MessageCountDto(message);
+        return messageCountDto.getLikeCount();
     }
 }
+

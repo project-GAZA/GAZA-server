@@ -1,11 +1,11 @@
 package io.junrock.GAZA.domain.message.entity;
 
-import io.junrock.GAZA.domain.member.entity.BaseTimeEntity;
-import io.junrock.GAZA.domain.member.entity.Member;
+import io.junrock.GAZA.domain.donate.entity.Donate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -20,10 +20,19 @@ public class Message extends BaseTimeEntity {
     @Column(name = "message_id")
     private Long messageId;
 
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "content")
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "user_role")
+    private String userRole;
+
+    @Column(name = "like_count")
+    private Integer likeCount;
+
+    public void messageUpdate(String username){
+        this.username=username;
+    }
 }

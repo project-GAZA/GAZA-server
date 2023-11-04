@@ -1,6 +1,5 @@
 package io.junrock.GAZA.domain.message.controller;
 
-import io.junrock.GAZA.auth.utils.SecurityUtil;
 import io.junrock.GAZA.domain.message.dto.MessageDto;
 import io.junrock.GAZA.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +15,7 @@ public class MessageController {
 
     @PostMapping
     public ResponseEntity<Long> writeMessage(@RequestBody MessageDto messageDto){
-        String email= SecurityUtil.getCurrentUsername();
-        return ResponseEntity.ok(messageService.write(messageDto,email));
+        return ResponseEntity.ok(messageService.write(messageDto));
     }
 
     @GetMapping
