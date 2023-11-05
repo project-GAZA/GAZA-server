@@ -1,4 +1,4 @@
-package io.junrock.GAZA.auth;
+package io.junrock.GAZA;
 
 public class Value {
     public static final String[] SwaggerUrlPatterns = {
