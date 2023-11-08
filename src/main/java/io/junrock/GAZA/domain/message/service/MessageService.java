@@ -23,6 +23,7 @@ public class MessageService {
                 .content(messageDto.getContent())
                 .userRole("ROLE_USER")
                 .likeCount(0)
+                .nation(messageDto.getNation())
                 .build();
         messageRepository.save(message);
         message.messageUpdate(messageDto.getUsername()+"#"+message.getMessageId());

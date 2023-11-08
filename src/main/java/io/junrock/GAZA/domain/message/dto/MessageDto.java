@@ -18,10 +18,14 @@ public class MessageDto {
     @Size(min = 3,max = 100)
     private String content;
 
+    @NotBlank
+    private String nation;
+
     public Message toEntity() {
         return Message.builder()
                 .username(username)
                 .content(content)
+                .nation(nation)
                 .build();
     }
 }

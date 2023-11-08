@@ -32,6 +32,9 @@ public class Message extends BaseTimeEntity {
     @Column(name = "like_count")
     private Integer likeCount;
 
+    @Column(name = "nation")
+    private String nation;
+
     public void messageUpdate(String username){
         this.username=username;
     }
