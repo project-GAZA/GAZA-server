@@ -5,15 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/likes")
 public class MessageLikeController {
     private final MessageService messageService;
-
     @GetMapping("/{messageId}")
-    public ResponseEntity<Integer> likeCounts(@PathVariable Long messageId){
-        return ResponseEntity.ok(messageService.getCount(messageId));
+    public ResponseEntity<Integer> likeCounts(@PathVariable Long messageId, HttpServletRequest request){
+        return ResponseEntity.ok(messageService.getCount(messageId,request));
     }
 }
