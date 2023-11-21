@@ -1,6 +1,7 @@
 package io.junrock.GAZA.domain.message.entity;
 
 import io.junrock.GAZA.domain.donate.entity.Donate;
+import io.junrock.GAZA.domain.memberip.entity.MemberIp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "message")
@@ -32,8 +34,8 @@ public class Message extends BaseTimeEntity {
     @Column(name = "like_count")
     private Integer likeCount;
 
-    @Column(name = "nation")
-    private String nation;
+    @OneToMany(mappedBy = "message")
+    private List<MemberIp> memberIp;
 
     public void messageUpdate(String username){
         this.username=username;
