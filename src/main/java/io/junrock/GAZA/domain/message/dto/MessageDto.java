@@ -13,19 +13,16 @@ import javax.validation.constraints.Size;
 public class MessageDto {
 
     @NotBlank
+    @Size(min=2)
     private String username;
     @NotBlank
     @Size(min = 3,max = 100)
     private String content;
 
-    @NotBlank
-    private String nation;
-
     public Message toEntity() {
         return Message.builder()
                 .username(username)
                 .content(content)
-                .nation(nation)
                 .build();
     }
 }

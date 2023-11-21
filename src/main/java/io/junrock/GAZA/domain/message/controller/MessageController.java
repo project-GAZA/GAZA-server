@@ -1,13 +1,10 @@
 package io.junrock.GAZA.domain.message.controller;
 
 import io.junrock.GAZA.domain.message.dto.MessageDto;
-import io.junrock.GAZA.domain.message.service.IpRenderingService;
 import io.junrock.GAZA.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @CrossOrigin
 @RestController

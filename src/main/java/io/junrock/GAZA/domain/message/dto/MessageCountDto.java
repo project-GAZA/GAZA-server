@@ -14,6 +14,6 @@ public class MessageCountDto {
     private Integer likeCount;
 
     public MessageCountDto(Message message){
-        this.likeCount=message.getLikeCount()+1;
+        this.likeCount=message.getLikeCount();
     }
 }
