@@ -1,0 +1,42 @@
+version: '3.0'
+
+services:
+  db:
+    image: mysql
+    container_name: gazadatabase
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - spring-network
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: app-container
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_DRIVER: ${SPRING_DATASOURCE_DRIVER}
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - spring-network
+    restart: always
+
+networks:
+  spring-network:
+
+volumes:
+  mysql-data:
