@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static io.junrock.GAZA.domain.message.dto.TypeMessage.CAUTION;
+import static io.junrock.GAZA.domain.message.dto.TypeMessage.LIKE;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -26,8 +29,9 @@ public class MessageService {
     private final IpRenderingService ipRenderingService;
     private final MemberIpRepository memberIpRepository;
     private final IpService ipService;
-    private static final Long FAIL_NUM=0L;
-    private static final int MIN_LENGTH=1;
+    private static final Long FAIL_NUM = 0L;
+    private static final int MIN_LENGTH = 1;
+
     public Long write(MessageDto messageDto) { //글 작성
         if (messageDto.getUsername().length() > MIN_LENGTH) { //닉네임 길이가 한자리거나 미입력한 경우
             Message message = Message.builder()
@@ -50,31 +54,17 @@ public class MessageService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public Long totalMessage() {
         return messageRepository.count();
     }
 
-    public Integer getCount(Long messageId, HttpServletRequest request) {  //메시지 좋아요 기능 추가
-        Message message = messageRepository.findById(messageId).orElseThrow(()
-                -> new IllegalStateException("존재하지 않는 메시지입니다!"));
-
+    public Integer getCount(Long messageId, HttpServletRequest request, String type) {  //메시지 좋아요 기능 추가
+        Message message = getMessage(messageId);
         String ip = ipRenderingService.getIp(request);
-
-        MessageCountDto messageCountDto = new MessageCountDto(message);
-
-        if (ipService.checkingIp(ip, messageId)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
-            int likeCount = messageRepository.updateCount(messageId);
-            MemberIp memberIp = MemberIp.builder()
-                    .ip(ip)
-                    .message(message)
-                    .build();
-            memberIpRepository.save(memberIp);
-            return likeCount;
-        } else {
-            System.out.println("이미 좋아요를 눌렀습니다");
-            return messageCountDto.getLikeCount();
-        }
+        return extractedCount(messageId, message, ip, type);
     }
+
 
     @Transactional(readOnly = true)
     public List<MessageResponseDto> findAllByLikecount(PageRequest request) { //메시지 좋아요 순으로 정렬
@@ -90,10 +80,47 @@ public class MessageService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<MessageResponseDto> findByUsername(MessageSearchDto dto, PageRequest request) { //username을 통해 검섹
         return messageRepository.findByUsernameStartingWith(dto.getUsername(), request).stream()
                 .map(MessageResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+
+    public Integer alertCountService(Long messageId, HttpServletRequest request,String type) {  //싫어요 기능 제한
+        Message message = getMessage(messageId);
+        String ip=ipRenderingService.getIp(request); //사용자IP 받아옴
+        return extractedCount(messageId,message,ip,type);
+    }
+
+    private Message getMessage(Long messageId) {
+        return messageRepository.findById(messageId).orElseThrow(()
+                -> new IllegalStateException("존재하지 않는 메시지입니다!"));
+    }
+
+    private int extractedCount(Long messageId, Message message, String ip, String type) {
+        MessageCountDto messageCountDto = new MessageCountDto(message);
+        if (!ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
+            int likeCount = 0;
+            if (type.equals(LIKE)) {
+                likeCount = messageRepository.updateLikeCount(messageId);
+            }
+            if(type.equals(CAUTION)) {
+                likeCount=messageRepository.updateCautionCount(messageId);
+            }
+
+            MemberIp memberIp = MemberIp.builder()
+                    .ip(ip)
+                    .message(message)
+                    .type(type)
+                    .build();
+            memberIpRepository.save(memberIp);
+            return likeCount;
+        } else {
+            System.out.println("이미 좋아요를 눌렀습니다");
+            return messageCountDto.getLikeCount();
+        }
     }
 }
 

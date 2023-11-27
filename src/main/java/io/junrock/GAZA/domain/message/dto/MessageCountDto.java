@@ -12,8 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageCountDto {
     private Integer likeCount;
+    private Integer cautionCount;
 
     public MessageCountDto(Message message){
         this.likeCount=message.getLikeCount();
+        this.cautionCount=message.getCautionCount();
     }
 }
