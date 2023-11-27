@@ -17,11 +17,12 @@ public class MessageResponseDto {
     private LocalDateTime createDt;
     private String username;
     private Integer likeCount;
-
+    private Integer cautionCount;
     public MessageResponseDto(Message message) {
         this.content =message.getContent();
         this.createDt=message.getCreateDt();
         this.username=message.getUsername();
         this.likeCount=message.getLikeCount();
+        this.cautionCount=message.getCautionCount();
     }
 }

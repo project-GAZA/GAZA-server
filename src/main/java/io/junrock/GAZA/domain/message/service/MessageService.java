@@ -39,6 +39,7 @@ public class MessageService {
                     .content(messageDto.getContent())
                     .userRole("ROLE_USER")
                     .likeCount(0)
+                    .cautionCount(0)
                     .build();
             messageRepository.save(message);
             message.messageUpdate(messageDto.getUsername() + "#" + message.getMessageId());
@@ -87,7 +88,6 @@ public class MessageService {
                 .collect(Collectors.toList());
     }
 
-
     public Integer alertCountService(Long messageId, HttpServletRequest request,String type) {  //싫어요 기능 제한
         Message message = getMessage(messageId);
         String ip=ipRenderingService.getIp(request); //사용자IP 받아옴
@@ -99,15 +99,24 @@ public class MessageService {
                 -> new IllegalStateException("존재하지 않는 메시지입니다!"));
     }
 
+
     private int extractedCount(Long messageId, Message message, String ip, String type) {
         MessageCountDto messageCountDto = new MessageCountDto(message);
-        if (!ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
-            int likeCount = 0;
+
+        if (ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
+            System.out.println("이미 좋아요를 눌렀습니다");
+            return 0;
+        } else {
+
+
+            int count = 0;
             if (type.equals(LIKE)) {
-                likeCount = messageRepository.updateLikeCount(messageId);
+                messageRepository.updateLikeCount(messageId);
+                count= messageCountDto.getLikeCount()+1;
             }
             if(type.equals(CAUTION)) {
-                likeCount=messageRepository.updateCautionCount(messageId);
+                messageRepository.updateCautionCount(messageId);
+                count= messageCountDto.getCautionCount()+1;
             }
 
             MemberIp memberIp = MemberIp.builder()
@@ -116,10 +125,7 @@ public class MessageService {
                     .type(type)
                     .build();
             memberIpRepository.save(memberIp);
-            return likeCount;
-        } else {
-            System.out.println("이미 좋아요를 눌렀습니다");
-            return messageCountDto.getLikeCount();
+            return count;
         }
     }
 }

@@ -12,16 +12,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class IpService {
     private final MemberIpRepository memberIpRepository;
-    public int checkingIp(String ip,Long messageId,int count){
+    public boolean checkingIp(String ip,Long messageId,String type){
         List<IpResponseDto> ipList = memberIpRepository.findByIp(ip).stream()
                 .map(IpResponseDto::new)
                 .collect(Collectors.toList());//해당 ip등을 갖고옴
 
-        for (int i = 0; i < ipList.size(); i++) {
-            if (ipList.get(i).getMessage().getMessageId() == messageId) {
-                count++;
-            }
-        }
-        return count;
+        return ipList.stream()
+                .filter(checkIp -> checkIp.getType().equals(type)) //넘어온 type가 일치한 거만 필터링
+                .anyMatch(ipResponseDto -> ipResponseDto.getMessage().getMessageId()==messageId); //일치하면 true, 좋아요, 싫어요 기능제한
     }
 }
