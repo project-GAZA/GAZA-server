@@ -16,25 +16,21 @@ import java.util.List;
 @RequestMapping("/api/home")
 public class HomeController {
     private final MessageService messageService;
+    private final static String BEST="best";
+    private final static String NEW="new";
     @GetMapping
-    public ResponseEntity<List<MessageResponseDto>> getMessageList(@RequestParam("page")int page,
-                                                                   @RequestParam("size")int size){ //홈화면 디폴트 시간 순 메시지 목록 출력
+    public ResponseEntity<List<MessageResponseDto>> getMessageList(@RequestParam(value = "page",defaultValue = "0")int page,
+                                                                   @RequestParam(value = "size",defaultValue = "0")int size,
+                                                                   @RequestParam(value = "sort",defaultValue = NEW)String sort){ //홈화면 디폴트 시간 순 메시지 목록 출력
         PageRequest request=PageRequest.of(page, size);
+        if(sort.equals(BEST)){
+            return ResponseEntity.ok(messageService.findAllByLikecount(request));
+        }
+        if(sort.equals(NEW)){
+            return ResponseEntity.ok(messageService.findAllByCreateDt(request));
+        }
+
         return ResponseEntity.ok(messageService.findAll(request));
-    }
-
-    @GetMapping("/bestmessages")
-    public ResponseEntity<List<MessageResponseDto>> getBestMessageList(@RequestParam("page")int page,
-                                                                       @RequestParam("size")int size){ //인기순 메시지 목록 출력
-        PageRequest request=PageRequest.of(page,size);
-        return ResponseEntity.ok(messageService.findAllByLikecount(request));
-    }
-
-    @GetMapping("/newmessages")
-    public ResponseEntity<List<MessageResponseDto>> getNewMessageList(@RequestParam("page")int page,
-                                                                       @RequestParam("size")int size){ //최신순 메시지 목록 출력
-        PageRequest request=PageRequest.of(page,size);
-        return ResponseEntity.ok(messageService.findAllByCreateDt(request));
     }
 
     @PostMapping
