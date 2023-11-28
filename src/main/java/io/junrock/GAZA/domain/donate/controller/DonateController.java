@@ -1,10 +1,12 @@
 package io.junrock.GAZA.domain.donate.controller;
 
-import io.junrock.GAZA.auth.utils.SecurityUtil;
 import io.junrock.GAZA.domain.donate.dto.DonateDto;
 import io.junrock.GAZA.domain.donate.service.DonateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static io.junrock.GAZA.domain.message.dto.TypeMessage.DONATE;
 
 @CrossOrigin
 @RestController
@@ -14,8 +16,7 @@ public class DonateController {
     private final DonateService donateService;
 
     @PostMapping
-    public Long donateTo(@RequestBody DonateDto donateDto){
-        String email= SecurityUtil.getCurrentUsername();
-        return donateService.donateMoney(donateDto,email); //현재 기부금 총합 반환
+    public ResponseEntity<Long> donateTo(@RequestBody DonateDto donateDto){
+        return ResponseEntity.ok(donateService.donateMoney(donateDto,DONATE));
     }
 }

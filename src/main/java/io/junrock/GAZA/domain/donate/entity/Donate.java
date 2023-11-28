@@ -1,12 +1,11 @@
 package io.junrock.GAZA.domain.donate.entity;
 
-import io.junrock.GAZA.domain.member.entity.Member;
+import io.junrock.GAZA.domain.message.entity.BaseTimeEntity;
+import io.junrock.GAZA.domain.message.entity.Message;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.AccessType;
-import org.springframework.jmx.export.annotation.ManagedNotifications;
 
 import javax.persistence.*;
 
@@ -16,15 +15,23 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Donate {
+public class Donate extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long donateId;
 
-    @Column(name = "donations")
-    private Long donations;
+    @Column(name = "amount")
+    private int amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "payment_type")
+    private String paymentType;
+
+    @Column(name = "order_id")
+    private String orderId;
+
+    @Column(name = "payment_key")
+    private String paymentKey;
+
+    @Column(name = "message_id")
+    private Long messageSubId ;
 }

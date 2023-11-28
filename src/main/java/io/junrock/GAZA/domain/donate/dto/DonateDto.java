@@ -10,5 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DonateDto {
-    private Long donations;
+    private String paymentType;
+    private String orderId;
+    private String paymentKey;
+    private String username;
+    private String content;
+    private int amount;
 }

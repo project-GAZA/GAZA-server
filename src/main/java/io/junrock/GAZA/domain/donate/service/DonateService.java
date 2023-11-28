@@ -3,9 +3,8 @@ package io.junrock.GAZA.domain.donate.service;
 import io.junrock.GAZA.domain.donate.dto.DonateDto;
 import io.junrock.GAZA.domain.donate.entity.Donate;
 import io.junrock.GAZA.domain.donate.repository.DonateRepository;
-import io.junrock.GAZA.domain.member.entity.Member;
-import io.junrock.GAZA.domain.member.repository.MemberRepository;
-import io.junrock.GAZA.domain.member.service.MemberService;
+import io.junrock.GAZA.domain.message.dto.MessageDto;
+import io.junrock.GAZA.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,15 +14,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DonateService {
     private final DonateRepository donateRepository;
-    private final MemberService memberService;
-    public Long donateMoney(DonateDto donateDto, String email) {
-        Member member=memberService.getMember(email);
+    private final MessageService messageService;
 
-        Donate donate=Donate.builder()
-                .donations(donateDto.getDonations())
-                .member(member)
+    public Long donateMoney(DonateDto donateDto, String donateType) {
+        MessageDto messageDto = MessageDto.builder()
+                .username(donateDto.getUsername())
+                .content(donateDto.getContent())
                 .build();
-        donateRepository.save(donate);
-       return donateRepository.sumDonations();
+        Long messageSubId = messageService.write(messageDto, donateType);
+        Donate donate = Donate.builder()
+                .amount(donateDto.getAmount())
+                .paymentType(donateDto.getPaymentType())
+                .paymentKey(donateDto.getPaymentKey())
+                .orderId(donateDto.getOrderId())
+                .messageSubId(messageSubId)
+                .build();
+        return donateRepository.save(donate).getMessageSubId();
     }
 }
+
+
