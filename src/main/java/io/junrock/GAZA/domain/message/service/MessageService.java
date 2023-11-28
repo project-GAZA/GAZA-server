@@ -32,7 +32,7 @@ public class MessageService {
     private static final Long FAIL_NUM = 0L;
     private static final int MIN_LENGTH = 1;
 
-    public Long write(MessageDto messageDto) { //글 작성
+    public Long write(MessageDto messageDto,String donateType) { //글 작성
         if (messageDto.getUsername().length() > MIN_LENGTH) { //닉네임 길이가 한자리거나 미입력한 경우
             Message message = Message.builder()
                     .username(messageDto.getUsername())
@@ -40,6 +40,7 @@ public class MessageService {
                     .userRole("ROLE_USER")
                     .likeCount(0)
                     .cautionCount(0)
+                    .donateType(donateType)
                     .build();
             messageRepository.save(message);
             message.messageUpdate(messageDto.getUsername() + "#" + message.getMessageId());
@@ -107,7 +108,6 @@ public class MessageService {
             System.out.println("이미 좋아요를 눌렀습니다");
             return 0;
         } else {
-
 
             int count = 0;
             if (type.equals(LIKE)) {
