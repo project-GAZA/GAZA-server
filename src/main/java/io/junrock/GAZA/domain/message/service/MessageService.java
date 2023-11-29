@@ -1,5 +1,6 @@
 package io.junrock.GAZA.domain.message.service;
 
+import com.vane.badwordfiltering.BadWordFiltering;
 import io.junrock.GAZA.domain.memberip.entity.MemberIp;
 import io.junrock.GAZA.domain.memberip.repository.MemberIpRepository;
 import io.junrock.GAZA.domain.memberip.service.IpService;
@@ -9,6 +10,7 @@ import io.junrock.GAZA.domain.message.dto.MessageResponseDto;
 import io.junrock.GAZA.domain.message.dto.MessageSearchDto;
 import io.junrock.GAZA.domain.message.entity.Message;
 import io.junrock.GAZA.domain.message.repository.MessageRepository;
+import io.swagger.annotations.BasicAuthDefinition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,9 @@ public class MessageService {
     private static final int MIN_LENGTH = 1;
 
     public Long write(MessageDto messageDto,String donateType) { //글 작성
-        if (messageDto.getUsername().length() > MIN_LENGTH) { //닉네임 길이가 한자리거나 미입력한 경우
+        BadWordFiltering badWordFiltering=new BadWordFiltering();
+        if (messageDto.getUsername().length() > MIN_LENGTH
+                &&!badWordFiltering.check(messageDto.getContent())) { //닉네임 길이가 한자리거나 미입력한 경우
             Message message = Message.builder()
                     .username(messageDto.getUsername())
                     .content(messageDto.getContent())
@@ -99,7 +103,6 @@ public class MessageService {
         return messageRepository.findById(messageId).orElseThrow(()
                 -> new IllegalStateException("존재하지 않는 메시지입니다!"));
     }
-
 
     private int extractedCount(Long messageId, Message message, String ip, String type) {
         MessageCountDto messageCountDto = new MessageCountDto(message);
