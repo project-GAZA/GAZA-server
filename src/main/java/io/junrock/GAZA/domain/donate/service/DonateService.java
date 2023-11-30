@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class DonateService {
     private final DonateRepository donateRepository;
     private final MessageService messageService;
 
+    @Transactional
     public Long donateMoney(DonateDto donateDto, String donateType) {
         MessageDto messageDto = MessageDto.builder()
                 .username(donateDto.getUsername())
