@@ -24,7 +24,7 @@ services:
       - spring-network
 
   app:
-    image: junseok1204/gaza-server:0.0.5
+    image: junseok1204/gaza-server:0.0.6
     container_name: app-container
     ports:
       - 8080:8080
