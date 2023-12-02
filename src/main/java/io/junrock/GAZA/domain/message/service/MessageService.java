@@ -10,7 +10,6 @@ import io.junrock.GAZA.domain.message.dto.MessageResponseDto;
 import io.junrock.GAZA.domain.message.dto.MessageSearchDto;
 import io.junrock.GAZA.domain.message.entity.Message;
 import io.junrock.GAZA.domain.message.repository.MessageRepository;
-import io.swagger.annotations.BasicAuthDefinition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -71,12 +70,24 @@ public class MessageService {
         return extractedCount(messageId, message, ip, type);
     }
 
+    // TODO: OrderBy 를 동적으로 해결해서 if 문 없에볼 것 QueryDsl 쓰기
+    // 백업디비? -> rds 쓰잖아 (준석 DB) -> snapShot -> s3 저장소에 저장 하루단위로
+    // db 1개 write/ read , reader DB 를 따로 write -> reader DB  lack DB 메모리랑 cpu 사용량 알람 해놔야함 50% -> db 스펙업
 
     @Transactional(readOnly = true)
+    // 컴포즈 ㄴㄴ
+    // @Cacheable() Java Heap jvm
+    // 1, 10 DB x -> expire time 만료시간 5분 or 10분 1만명
+    // DB 인덱스 걸어나야됨.
     public List<MessageResponseDto> findAllByLikecount(PageRequest request) { //메시지 좋아요 순으로 정렬
         return messageRepository.findAllByOrderByLikeCountDesc(request).stream()
                 .map(MessageResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    // @Cacheable("findAllByLikecountCache")
+    public List<MessageResponseDto> findAllByLikecountCache(PageRequest request) { //메시지 좋아요 순으로 정렬
+        return findAllByLikecount(request);
     }
 
     @Transactional(readOnly = true)
@@ -108,6 +119,7 @@ public class MessageService {
         MessageCountDto messageCountDto = new MessageCountDto(message);
 
         if (ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
+            // log 사용, System.out.println 왜 안좋은지 그리고 logback 의 역할 까지 공부해서 쓰도록해용
             System.out.println("이미 좋아요를 눌렀습니다");
             return 0;
         } else {

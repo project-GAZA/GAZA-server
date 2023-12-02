@@ -16,7 +16,8 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     int updateCount(Long messageId);
 
     List<Message> findAllByOrderByLikeCountDesc(Pageable pageable);
+
     List<Message> findAllByOrderByCreateDtDesc(Pageable pageable);
 
-    List<Message> findByUsernameStartingWith(String username,Pageable pageable);
+    List<Message> findByUsernameStartingWith(String username, Pageable pageable);
 }
