@@ -32,6 +32,9 @@ public class Message extends BaseTimeEntity {
     @Column(name = "like_count")
     private Integer likeCount;
 
+    @Column(name = "donate_type")
+    private String donateType;
+
     @Column(name = "caution_count")
     private Integer cautionCount;
 

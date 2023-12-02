@@ -34,9 +34,9 @@ public class MessageService {
     private static final int MIN_LENGTH = 1;
 
     public Long write(MessageDto messageDto,String donateType) { //글 작성
-        BadWordFiltering badWordFiltering=new BadWordFiltering();
+        BadWordFiltering wordFiltering=new BadWordFiltering();
         if (messageDto.getUsername().length() > MIN_LENGTH
-                &&!badWordFiltering.check(messageDto.getContent())) { //닉네임 길이가 한자리거나 미입력한 경우
+                &&!wordFiltering.check(messageDto.getContent())) { //닉네임 길이가 한자리거나 미입력한 경우
             Message message = Message.builder()
                     .username(messageDto.getUsername())
                     .content(messageDto.getContent())

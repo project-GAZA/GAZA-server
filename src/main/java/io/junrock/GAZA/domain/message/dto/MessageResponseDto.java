@@ -13,12 +13,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageResponseDto {
+    private Long messageId;
     private String content;
     private LocalDateTime createDt;
     private String username;
     private Integer likeCount;
     private Integer cautionCount;
     public MessageResponseDto(Message message) {
+        this.messageId=message.getMessageId();
         this.content =message.getContent();
         this.createDt=message.getCreateDt();
         this.username=message.getUsername();

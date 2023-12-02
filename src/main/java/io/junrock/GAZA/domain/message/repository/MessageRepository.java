@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,12 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     List<Message> findAllByOrderByCreateDtDesc(Pageable pageable);
 
     List<Message> findByUsernameStartingWith(String username, Pageable pageable);
+
+    @Modifying
+    @Query("update Message m set m.likeCount=m.likeCount+1 where m.messageId= :messageId")
+    void updateLikeCount(@Param("messageId")Long messageId);
+
+    @Modifying
+    @Query("update Message m set m.cautionCount=m.cautionCount+1 where m.messageId= :messageId")
+    void updateCautionCount(@Param("messageId") Long messageId);
 }
