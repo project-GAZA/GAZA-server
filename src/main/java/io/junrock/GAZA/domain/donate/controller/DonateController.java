@@ -15,6 +15,11 @@ import static io.junrock.GAZA.domain.message.dto.TypeMessage.DONATE;
 public class DonateController {
     private final DonateService donateService;
 
+    @GetMapping
+    public ResponseEntity<Integer> donateSum(){
+        return ResponseEntity.ok(donateService.donateSum());
+    }
+
     @PostMapping
     public ResponseEntity<Long> donateTo(@RequestBody DonateDto donateDto){
         return ResponseEntity.ok(donateService.donateMoney(donateDto,DONATE));

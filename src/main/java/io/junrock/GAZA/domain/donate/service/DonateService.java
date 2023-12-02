@@ -31,6 +31,10 @@ public class DonateService {
                 .build();
         return donateRepository.save(donate).getMessageSubId();
     }
+
+    public Integer donateSum() {
+        return donateRepository.sumDonations();
+    }
 }
 
 
