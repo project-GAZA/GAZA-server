@@ -14,9 +14,11 @@ import lombok.NoArgsConstructor;
 public class IpResponseDto {
     private String ip;
     private Message message;
+    private String type;
 
     public IpResponseDto(MemberIp memberIp) {
         this.ip = memberIp.getIp();
         this.message=memberIp.getMessage();
+        this.type=memberIp.getType();
     }
 }

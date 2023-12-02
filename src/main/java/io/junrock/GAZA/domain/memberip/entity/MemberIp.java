@@ -22,6 +22,7 @@ public class MemberIp {
 
     private String ip;
 
+    private String type;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "message_id")
     private Message message;
