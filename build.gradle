@@ -1,7 +1,14 @@
+buildscript {
+	dependencies {
+		classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.17'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id  "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'io.junrock'
@@ -36,8 +43,31 @@ dependencies {
 	implementation('io.github.openfeign:feign-jackson:12.1')
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
+	implementation 'com.querydsl:querydsl-jpa'
+	implementation 'com.querydsl:querydsl-apt'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+
+def querydslDir = "src/main/generated"
+querydsl {
+	library = "com.querydsl:querydsl-apt"
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/main/java', querydslDir]
+		}
+	}
+}
+compileQuerydsl{
+	options.annotationProcessorPath = configurations.querydsl
+}
+configurations {
+	querydsl.extendsFrom compileClasspath
 }
