@@ -21,7 +21,7 @@ import static io.junrock.GAZA.domain.message.entity.QMessage.message;
 public class MessageQueryRepository {
     private final EntityManager em;
 
-    public List<Message> findMessages(Pageable pageable, String type) {
+    public List<Message> findMessages(Pageable pageable,String type) {
 
         JPAQueryFactory query = new JPAQueryFactory(em);
         QMessage message = QMessage.message;

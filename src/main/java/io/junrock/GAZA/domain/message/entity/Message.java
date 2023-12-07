@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "message")
+@Table(name = "message",indexes = {@Index(name = "member_username",columnList = "username")}) //인덱싱 설정 추가
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

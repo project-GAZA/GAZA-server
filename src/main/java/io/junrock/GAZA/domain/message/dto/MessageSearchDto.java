@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageSearchDto {
     private String username;
+    private int page;
+    private int size;
 
     public Message toEntity(){
         return Message.builder()

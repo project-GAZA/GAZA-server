@@ -9,6 +9,7 @@ import io.junrock.GAZA.domain.message.entity.Message;
 import io.junrock.GAZA.domain.message.repository.MessageQueryRepository;
 import io.junrock.GAZA.domain.message.repository.MessageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import static io.junrock.GAZA.domain.message.dto.TypeMessage.LIKE;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class MessageService {
     private final MessageRepository messageRepository;
     private final IpRenderingService ipRenderingService;
@@ -73,28 +75,15 @@ public class MessageService {
     // 백업디비? -> rds 쓰잖아 (준석 DB) -> snapShot -> s3 저장소에 저장 하루단위로
     // db 1개 write/ read , reader DB 를 따로 write -> reader DB  lack DB 메모리랑 cpu 사용량 알람 해놔야함 50% -> db 스펙업
 
-    @Transactional(readOnly = true)
+    //@Transactional(readOnly = true)
     // 컴포즈 ㄴㄴ
     // @Cacheable() Java Heap jvm
     // 1, 10 DB x -> expire time 만료시간 5분 or 10분 1만명
     // DB 인덱스 걸어나야됨.
-    public List<MessageResponseDto> findAllByLikecount(PageRequest request) { //메시지 좋아요 순으로 정렬
-        return messageRepository.findAllByOrderByLikeCountDesc(request).stream()
-                .map(MessageResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     // @Cacheable("findAllByLikecountCache")
-    public List<MessageResponseDto> findAllByLikecountCache(PageRequest request) { //메시지 좋아요 순으로 정렬
+    /*public List<MessageResponseDto> findAllByLikecountCache(PageRequest request) { //메시지 좋아요 순으로 정렬
         return findAllByLikecount(request);
-    }
-
-    @Transactional(readOnly = true)
-    public List<MessageResponseDto> findAllByCreateDt(PageRequest request) { //메시지 작성된 최신순으로 정렬
-        return messageRepository.findAllByOrderByCreateDtDesc(request).stream()
-                .map(MessageResponseDto::new)
-                .collect(Collectors.toList());
-    }
+    }*///
 
     @Transactional(readOnly = true)
     public List<MessageResponseDto> findAllMessages(PageRequest request,String type) { //메시지 작성된 최신순으로 정렬
@@ -102,7 +91,6 @@ public class MessageService {
                 .map(MessageResponseDto::new)
                 .collect(Collectors.toList());
     }
-
 
     @Transactional(readOnly = true)
     public List<MessageResponseDto> findByUsername(MessageSearchDto dto, PageRequest request) { //username을 통해 검섹
@@ -127,7 +115,7 @@ public class MessageService {
 
         if (ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
             // log 사용, System.out.println 왜 안좋은지 그리고 logback 의 역할 까지 공부해서 쓰도록해용
-            System.out.println("이미 좋아요를 눌렀습니다");
+            log.info("이미 좋아요 혹은 신고하기를 누르셨습니다!");
             return 0;
         } else {
 
