@@ -8,6 +8,7 @@ import io.junrock.GAZA.domain.message.dto.*;
 import io.junrock.GAZA.domain.message.entity.Message;
 import io.junrock.GAZA.domain.message.repository.MessageQueryRepository;
 import io.junrock.GAZA.domain.message.repository.MessageRepository;
+import io.peaceingaza.filtering.cusswordfilter.WordFiltering;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -35,9 +36,9 @@ public class MessageService {
 
     private final MessageQueryRepository messageQueryRepository;
     public Long write(MessageDto messageDto,String donateType) { //글 작성
-        BadWordFiltering wordFiltering=new BadWordFiltering();
+        WordFiltering wordFiltering=new WordFiltering();
         if (messageDto.getUsername().length() > MIN_LENGTH
-                &&!wordFiltering.check(messageDto.getContent())) { //닉네임 길이가 한자리거나 미입력한 경우
+                &&!wordFiltering.checkMessage(messageDto.getContent())) { //닉네임 길이가 한자리거나 미입력한 경우
             Message message = Message.builder()
                     .username(messageDto.getUsername())
                     .content(messageDto.getContent())
