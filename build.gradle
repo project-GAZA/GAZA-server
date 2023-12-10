@@ -48,6 +48,7 @@ dependencies {
 	implementation 'com.querydsl:querydsl-apt'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'com.github.JunRock:cussword_lib:0.0.2'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
 }
 
 tasks.named('test') {
