@@ -14,7 +14,7 @@ services:
     container_name: gazadatabase
     restart: always
     ports:
-      - 3307:3306
+      - 3306:3306
     volumes:
       - mysql-data:/var/lib/mysql
     environment:
@@ -24,7 +24,7 @@ services:
       - spring-network
 
   app:
-    image: junseok1204/gaza-server:0.0.7
+    image: junseok1204/gaza-server:0.0.8
     container_name: app-container
     ports:
       - 8080:8080
