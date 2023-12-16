@@ -59,6 +59,6 @@ public class MessageQueryRepository {
     }
 
     private BooleanExpression usernameEq(String username){
-        return hasText(username)?message.username.eq(username):null;
+        return hasText(username)?message.username.like(username+"%"):null;
     }
 }
