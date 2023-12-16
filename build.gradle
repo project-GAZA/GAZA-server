@@ -1,6 +1,6 @@
 buildscript {
-	dependencies {
-		classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10")
+	ext {
+		queryDslVersion = "5.0.0"
 	}
 }
 
@@ -8,7 +8,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.17'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id  "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 group = 'io.junrock'
@@ -44,8 +44,8 @@ dependencies {
 	implementation('io.github.openfeign:feign-jackson:12.1')
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
-	implementation 'com.querydsl:querydsl-jpa'
-	implementation 'com.querydsl:querydsl-apt'
+	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'com.github.JunRock:cussword_lib:0.0.2'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
@@ -56,22 +56,21 @@ tasks.named('test') {
 }
 
 
-def querydslDir = "src/main/generated"
+def querydslDir = "$buildDir/generated/querydsl"
+
 querydsl {
-	library = "com.querydsl:querydsl-apt"
 	jpa = true
 	querydslSourcesDir = querydslDir
 }
 sourceSets {
-	main {
-		java {
-			srcDirs = ['src/main/java', querydslDir]
-		}
-	}
+	main.java.srcDir querydslDir
 }
 compileQuerydsl{
 	options.annotationProcessorPath = configurations.querydsl
 }
 configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 	querydsl.extendsFrom compileClasspath
 }
