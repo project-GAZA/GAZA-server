@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 public class PageRequestDto {
     int page;
     int size;
-    //PageSort sort;
 }

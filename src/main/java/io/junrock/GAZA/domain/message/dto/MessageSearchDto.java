@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 @Data
 @Builder
@@ -12,12 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageSearchDto {
     private String username;
-    private int page;
-    private int size;
-
+    @Builder.Default
+    private String type="new";
     public Message toEntity(){
         return Message.builder()
                 .username(username)
+                .donateType(type)
                 .build();
     }
 }

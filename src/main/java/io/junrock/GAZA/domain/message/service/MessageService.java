@@ -63,7 +63,7 @@ public class MessageService {
 
     @Transactional(readOnly = true)
     public Long totalMessage() {
-        return messageRepository.count();
+        return messageRepository.donateMessageCount();
     }
 
     public Integer getCount(Long messageId, HttpServletRequest request, String type) {  //메시지 좋아요 기능 추가
@@ -138,6 +138,16 @@ public class MessageService {
             memberIpRepository.save(memberIp);
             return count;
         }
+    }
+
+    public List<MessageResponseDto> findAllMessagesTest(PageRequest pageGenerate, MessageSearchDto messageSearchDto) {
+        if(messageSearchDto.getUsername()!=""){
+
+        }
+            return messageQueryRepository.findMessagesTest(pageGenerate,messageSearchDto).stream()
+                    .map(MessageResponseDto::new)
+                    .collect(Collectors.toList());
+
     }
 }
 
