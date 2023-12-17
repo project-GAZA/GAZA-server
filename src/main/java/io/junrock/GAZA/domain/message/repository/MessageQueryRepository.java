@@ -22,19 +22,7 @@ import static org.springframework.util.StringUtils.hasText;
 @RequiredArgsConstructor
 public class MessageQueryRepository {
     private final EntityManager em;
-    public List<Message> findMessages(Pageable pageable,String type) {
-
-        JPAQueryFactory query = new JPAQueryFactory(em);
-        QMessage message = QMessage.message;
-        return query
-                .selectFrom(message)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(orderSpecifier(type))
-                .fetch();
-    }
-
-    public List<Message> findMessagesTest(Pageable pageable, MessageSearchDto messageSearchDto) {
+    public List<Message> findMessages(Pageable pageable, MessageSearchDto messageSearchDto) {
 
         JPAQueryFactory query = new JPAQueryFactory(em);
         QMessage message = QMessage.message;

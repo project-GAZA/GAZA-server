@@ -6,6 +6,7 @@ import io.junrock.GAZA.domain.message.dto.PageRequestDto;
 import io.junrock.GAZA.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class HomeController {
 
     @GetMapping
     public ResponseEntity<List<MessageResponseDto>> getList(PageRequestDto pageRequestDto, MessageSearchDto messageSearchDto) {
-        return ResponseEntity.ok(messageService.findAllMessagesTest(pageGenerate(pageRequestDto), messageSearchDto));
+        return ResponseEntity.ok(messageService.findAllMessages(pageGenerate(pageRequestDto), messageSearchDto));
     }
 
     private PageRequest pageGenerate(PageRequestDto dto) {
