@@ -86,20 +86,6 @@ public class MessageService {
         return findAllByLikecount(request);
     }*///
 
-    @Transactional(readOnly = true)
-    public List<MessageResponseDto> findAllMessages(PageRequest request,String type) { //메시지 작성된 최신순으로 정렬
-        return messageQueryRepository.findMessages(request,type).stream()
-                .map(MessageResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public List<MessageResponseDto> findByUsername(MessageSearchDto dto, PageRequest request) { //username을 통해 검섹
-        return messageRepository.findByUsernameStartingWith(dto.getUsername(), request).stream()
-                .map(MessageResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     public Integer alertCountService(Long messageId, HttpServletRequest request,String type) {  //싫어요 기능 제한
         Message message = getMessage(messageId);
         String ip=ipRenderingService.getIp(request); //사용자IP 받아옴
@@ -140,11 +126,9 @@ public class MessageService {
         }
     }
 
-    public List<MessageResponseDto> findAllMessagesTest(PageRequest pageGenerate, MessageSearchDto messageSearchDto) {
-        if(messageSearchDto.getUsername()!=""){
-
-        }
-            return messageQueryRepository.findMessagesTest(pageGenerate,messageSearchDto).stream()
+    @Transactional(readOnly = true)
+    public List<MessageResponseDto> findAllMessages(PageRequest pageGenerate, MessageSearchDto messageSearchDto) {
+            return messageQueryRepository.findMessages(pageGenerate,messageSearchDto).stream()
                     .map(MessageResponseDto::new)
                     .collect(Collectors.toList());
 
