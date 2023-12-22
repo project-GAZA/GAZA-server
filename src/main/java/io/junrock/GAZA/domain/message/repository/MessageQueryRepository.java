@@ -31,13 +31,13 @@ public class MessageQueryRepository {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .where(usernameEq(messageSearchDto.getUsername()))
-                .orderBy(orderSpecifier(messageSearchDto.getType()))
+                .orderBy(orderSpecifier(messageSearchDto.getSort()))
                 .fetch();
     }
 
-    private OrderSpecifier<String> orderSpecifier(String type) {
+    private OrderSpecifier<String> orderSpecifier(String sort) {
         Order order = Order.DESC;
-        switch (type) {
+        switch (sort) {
             case "new":
                 return new OrderSpecifier(order, message.createDt);
             case "best":

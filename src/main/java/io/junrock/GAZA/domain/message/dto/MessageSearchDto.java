@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Value;
 public class MessageSearchDto {
     private String username;
     @Builder.Default
-    private String type="new";
+    private String sort="new";
     public Message toEntity(){
         return Message.builder()
                 .username(username)
-                .donateType(type)
+                .donateType(sort)
                 .build();
     }
 }
