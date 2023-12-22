@@ -27,6 +27,7 @@ public class DonateService {
                 .paymentType(donateDto.getPaymentType())
                 .paymentKey(donateDto.getPaymentKey())
                 .orderId(donateDto.getOrderId())
+                .telNumber(donateDto.getTelNumber())
                 .messageSubId(messageSubId)
                 .build();
         return donateRepository.save(donate).getMessageSubId();

@@ -15,5 +15,6 @@ public class DonateDto {
     private String paymentKey;
     private String username;
     private String content;
+    private String telNumber;
     private int amount;
 }
