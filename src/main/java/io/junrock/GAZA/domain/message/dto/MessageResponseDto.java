@@ -19,6 +19,7 @@ public class MessageResponseDto {
     private String username;
     private Integer likeCount;
     private Integer cautionCount;
+    private String donateType;
     public MessageResponseDto(Message message) {
         this.messageId=message.getMessageId();
         this.content =message.getContent();
@@ -26,5 +27,6 @@ public class MessageResponseDto {
         this.username=message.getUsername();
         this.likeCount=message.getLikeCount();
         this.cautionCount=message.getCautionCount();
+        this.donateType=message.getDonateType();
     }
 }
