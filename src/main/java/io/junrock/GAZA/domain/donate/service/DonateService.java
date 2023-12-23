@@ -23,10 +23,8 @@ public class DonateService {
                 .build();
         Long messageSubId = messageService.write(messageDto, donateType);
         Donate donate = Donate.builder()
-                .amount(donateDto.getAmount())
-                .paymentType(donateDto.getPaymentType())
-                .paymentKey(donateDto.getPaymentKey())
-                .orderId(donateDto.getOrderId())
+                .amount(0)
+                .tossId(donateDto.getTossId())
                 .telNumber(donateDto.getTelNumber())
                 .messageSubId(messageSubId)
                 .build();
