@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 
 @Data
 @Builder
@@ -15,6 +14,7 @@ public class MessageSearchDto {
     private String username;
     @Builder.Default
     private String sort="new";
+
     public Message toEntity(){
         return Message.builder()
                 .username(username)

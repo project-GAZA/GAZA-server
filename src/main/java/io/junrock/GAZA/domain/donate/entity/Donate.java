@@ -23,14 +23,8 @@ public class Donate extends BaseTimeEntity {
     @Column(name = "amount")
     private int amount;
 
-    @Column(name = "payment_type")
-    private String paymentType;
-
-    @Column(name = "order_id")
-    private String orderId;
-
-    @Column(name = "payment_key")
-    private String paymentKey;
+    @Column(name = "toss_id")
+    private String tossId;
 
     @Column(name = "tel_number")
     private String telNumber;
