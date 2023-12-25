@@ -1,6 +1,5 @@
 package io.junrock.GAZA.domain.memberip.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.junrock.GAZA.domain.message.entity.Message;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

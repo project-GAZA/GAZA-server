@@ -6,7 +6,6 @@ import io.junrock.GAZA.domain.message.dto.PageRequestDto;
 import io.junrock.GAZA.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
