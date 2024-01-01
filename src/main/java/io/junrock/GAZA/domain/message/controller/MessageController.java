@@ -16,7 +16,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping
-    public ResponseEntity<Long> writeMessage(@RequestBody MessageDto messageDto){
+    public ResponseEntity writeMessage(@RequestBody MessageDto messageDto){
         return ResponseEntity.ok(messageService.write(messageDto,MESSAGE));  //저장된 메시지 ID반환
     }
 
