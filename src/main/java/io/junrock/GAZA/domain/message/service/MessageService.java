@@ -8,12 +8,16 @@ import io.junrock.GAZA.domain.message.dto.*;
 import io.junrock.GAZA.domain.message.entity.Message;
 import io.junrock.GAZA.domain.message.repository.MessageQueryRepository;
 import io.junrock.GAZA.domain.message.repository.MessageRepository;
+import io.junrock.GAZA.exception.ErrorCode;
+import io.junrock.GAZA.exception.GazaException;
 import io.peaceingaza.filtering.cusswordfilter.WordFiltering;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -31,14 +35,16 @@ public class MessageService {
     private final IpRenderingService ipRenderingService;
     private final MemberIpRepository memberIpRepository;
     private final IpService ipService;
-    private static final Long FAIL_NUM = 0L;
     private static final int MIN_LENGTH = 1;
 
     private final MessageQueryRepository messageQueryRepository;
     public Long write(MessageDto messageDto,String donateType) { //글 작성
         WordFiltering wordFiltering=new WordFiltering();
-        if (messageDto.getUsername().length() > MIN_LENGTH
-                &&!wordFiltering.checkMessage(messageDto.getContent())) { //닉네임 길이가 한자리거나 미입력한 경우
+        if(messageDto.getUsername().length()<=MIN_LENGTH)
+            throw new GazaException(ErrorCode.NOT_ENOUGH_MESSAGE_LENGTH);
+        if(wordFiltering.checkMessage(messageDto.getContent()))
+            throw new GazaException(ErrorCode.CONTAIN_BADWORD);
+        //if (messageDto.getUsername().length() > MIN_LENGTH) { //닉네임 길이가 한자리거나 미입력한 경우
             Message message = Message.builder()
                     .username(messageDto.getUsername())
                     .content(messageDto.getContent())
@@ -49,9 +55,8 @@ public class MessageService {
                     .build();
             messageRepository.save(message);
             message.messageUpdate(messageDto.getUsername() + "#" + message.getMessageId());
-            return message.getMessageId();
-        } //이름은 뒤에 #+PK값으로 중복확인
-        return FAIL_NUM;
+                return message.getMessageId();
+        //} //이름은 뒤에 #+PK값으로 중복확인
     }
 
     @Transactional(readOnly = true)  //페이징 처리
