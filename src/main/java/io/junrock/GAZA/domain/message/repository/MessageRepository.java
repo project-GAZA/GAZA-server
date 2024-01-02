@@ -18,6 +18,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     @Query("update Message m set m.cautionCount=m.cautionCount+1 where m.messageId= :messageId")
     void updateCautionCount(@Param("messageId") Long messageId);
 
-    @Query("select count (m) from Message m where m.donateType='donate'")
+    @Query("select count (m) from Message m where m.donateType='message'")
     Long donateMessageCount();
 }

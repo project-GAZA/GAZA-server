@@ -1,7 +1,6 @@
 package io.junrock.GAZA.domain.donate.entity;
 
 import io.junrock.GAZA.domain.message.entity.BaseTimeEntity;
-import io.junrock.GAZA.domain.message.entity.Message;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

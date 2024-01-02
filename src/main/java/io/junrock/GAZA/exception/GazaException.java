@@ -1,12 +1,10 @@
 package io.junrock.GAZA.exception;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class GazaException extends RuntimeException{
-    private ErrorCode errorCode;
-
-    public GazaException(ErrorCode errorCode) {
-        this.errorCode = errorCode;
-    }
+    ErrorCode errorCode;
 }

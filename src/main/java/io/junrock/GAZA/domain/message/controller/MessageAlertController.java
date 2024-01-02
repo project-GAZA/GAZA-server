@@ -1,6 +1,8 @@
 package io.junrock.GAZA.domain.message.controller;
 
 import io.junrock.GAZA.domain.message.service.MessageService;
+import io.junrock.GAZA.exception.ApiResponse;
+import io.junrock.GAZA.exception.HttpStatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ public class MessageAlertController {
     private final MessageService messageService;
 
     @GetMapping("/{messageId}")
-    public ResponseEntity<Integer> alertCount(@PathVariable Long messageId, HttpServletRequest request){
-        return ResponseEntity.ok(messageService.alertCountService(messageId,request,CAUTION));
+    public ApiResponse alertCount(@PathVariable Long messageId, HttpServletRequest request){
+        return ApiResponse.success(HttpStatusCode.OK,messageService.alertCountService(messageId,request,CAUTION));
     }
 }
