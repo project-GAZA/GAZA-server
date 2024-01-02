@@ -17,8 +17,8 @@ public class ApiResponse<T> {
         this.message=message;
     }
 
-    public static <T>ApiResponse<T> success(T data){
-       return new ApiResponse<>(HttpStatusCode.CREATED,data,null);
+    public static <T>ApiResponse<T> success(HttpStatusCode statusCode,T data){
+       return new ApiResponse<>(statusCode,data,null);
     }
 
 }
