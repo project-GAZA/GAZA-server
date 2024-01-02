@@ -1,6 +1,5 @@
 package io.junrock.GAZA.domain.message.service;
 
-import com.vane.badwordfiltering.BadWordFiltering;
 import io.junrock.GAZA.domain.memberip.entity.MemberIp;
 import io.junrock.GAZA.domain.memberip.repository.MemberIpRepository;
 import io.junrock.GAZA.domain.memberip.service.IpService;
@@ -14,10 +13,8 @@ import io.peaceingaza.filtering.cusswordfilter.WordFiltering;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -38,25 +35,24 @@ public class MessageService {
     private static final int MIN_LENGTH = 1;
 
     private final MessageQueryRepository messageQueryRepository;
-    public Long write(MessageDto messageDto,String donateType) { //글 작성
-        WordFiltering wordFiltering=new WordFiltering();
-        if(messageDto.getUsername().length()<=MIN_LENGTH)
+
+    public MessageDto write(MessageDto messageDto, String donateType) { //글 작성
+        WordFiltering wordFiltering = new WordFiltering();
+        if (messageDto.getUsername().length() <= MIN_LENGTH)
             throw new GazaException(ErrorCode.NOT_ENOUGH_MESSAGE_LENGTH);
-        if(wordFiltering.checkMessage(messageDto.getContent()))
+        if (wordFiltering.checkMessage(messageDto.getContent()))
             throw new GazaException(ErrorCode.CONTAIN_BADWORD);
-        //if (messageDto.getUsername().length() > MIN_LENGTH) { //닉네임 길이가 한자리거나 미입력한 경우
-            Message message = Message.builder()
-                    .username(messageDto.getUsername())
-                    .content(messageDto.getContent())
-                    .userRole("ROLE_USER")
-                    .likeCount(0)
-                    .cautionCount(0)
-                    .donateType(donateType)
-                    .build();
-            messageRepository.save(message);
-            message.messageUpdate(messageDto.getUsername() + "#" + message.getMessageId());
-                return message.getMessageId();
-        //} //이름은 뒤에 #+PK값으로 중복확인
+        Message message = Message.builder()
+                .username(messageDto.getUsername())
+                .content(messageDto.getContent())
+                .userRole("ROLE_USER")
+                .likeCount(0)
+                .cautionCount(0)
+                .donateType(donateType)
+                .build();
+        messageRepository.save(message);
+        message.messageUpdate(messageDto.getUsername() + "#" + message.getMessageId());
+        return messageDto;
     }
 
     @Transactional(readOnly = true)  //페이징 처리
@@ -77,24 +73,10 @@ public class MessageService {
         return extractedCount(messageId, message, ip, type);
     }
 
-    // TODO: OrderBy 를 동적으로 해결해서 if 문 없에볼 것 QueryDsl 쓰기
-    // 백업디비? -> rds 쓰잖아 (준석 DB) -> snapShot -> s3 저장소에 저장 하루단위로
-    // db 1개 write/ read , reader DB 를 따로 write -> reader DB  lack DB 메모리랑 cpu 사용량 알람 해놔야함 50% -> db 스펙업
-
-    //@Transactional(readOnly = true)
-    // 컴포즈 ㄴㄴ
-    // @Cacheable() Java Heap jvm
-    // 1, 10 DB x -> expire time 만료시간 5분 or 10분 1만명
-    // DB 인덱스 걸어나야됨.
-    // @Cacheable("findAllByLikecountCache")
-    /*public List<MessageResponseDto> findAllByLikecountCache(PageRequest request) { //메시지 좋아요 순으로 정렬
-        return findAllByLikecount(request);
-    }*///
-
-    public Integer alertCountService(Long messageId, HttpServletRequest request,String type) {  //싫어요 기능 제한
+    public Integer alertCountService(Long messageId, HttpServletRequest request, String type) {  //싫어요 기능 제한
         Message message = getMessage(messageId);
-        String ip=ipRenderingService.getIp(request); //사용자IP 받아옴
-        return extractedCount(messageId,message,ip,type);
+        String ip = ipRenderingService.getIp(request); //사용자IP 받아옴
+        return extractedCount(messageId, message, ip, type);
     }
 
     private Message getMessage(Long messageId) {
@@ -106,7 +88,6 @@ public class MessageService {
         MessageCountDto messageCountDto = new MessageCountDto(message);
 
         if (ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
-            // log 사용, System.out.println 왜 안좋은지 그리고 logback 의 역할 까지 공부해서 쓰도록해용
             log.info("이미 좋아요 혹은 신고하기를 누르셨습니다!");
             return 0;
         } else {
@@ -114,11 +95,11 @@ public class MessageService {
             int count = 0;
             if (type.equals(LIKE)) {
                 messageRepository.updateLikeCount(messageId);
-                count= messageCountDto.getLikeCount()+1;
+                count = messageCountDto.getLikeCount() + 1;
             }
-            if(type.equals(CAUTION)) {
+            if (type.equals(CAUTION)) {
                 messageRepository.updateCautionCount(messageId);
-                count= messageCountDto.getCautionCount()+1;
+                count = messageCountDto.getCautionCount() + 1;
             }
 
             MemberIp memberIp = MemberIp.builder()
@@ -133,9 +114,9 @@ public class MessageService {
 
     @Transactional(readOnly = true)
     public List<MessageResponseDto> findAllMessages(PageRequest pageGenerate, MessageSearchDto messageSearchDto) {
-            return messageQueryRepository.findMessages(pageGenerate,messageSearchDto).stream()
-                    .map(MessageResponseDto::new)
-                    .collect(Collectors.toList());
+        return messageQueryRepository.findMessages(pageGenerate, messageSearchDto).stream()
+                .map(MessageResponseDto::new)
+                .collect(Collectors.toList());
 
     }
 }
