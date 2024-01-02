@@ -88,10 +88,8 @@ public class MessageService {
         MessageCountDto messageCountDto = new MessageCountDto(message);
 
         if (ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
-            log.info("이미 좋아요 혹은 신고하기를 누르셨습니다!");
-            return 0;
-        } else {
-
+            throw new GazaException(ErrorCode.EXIST_IP);
+        }
             int count = 0;
             if (type.equals(LIKE)) {
                 messageRepository.updateLikeCount(messageId);
@@ -109,7 +107,6 @@ public class MessageService {
                     .build();
             memberIpRepository.save(memberIp);
             return count;
-        }
     }
 
     @Transactional(readOnly = true)
@@ -117,7 +114,6 @@ public class MessageService {
         return messageQueryRepository.findMessages(pageGenerate, messageSearchDto).stream()
                 .map(MessageResponseDto::new)
                 .collect(Collectors.toList());
-
     }
 }
 
