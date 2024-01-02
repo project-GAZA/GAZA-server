@@ -21,7 +21,7 @@ public class DonateService {
                 .username(donateDto.getUsername())
                 .content(donateDto.getContent())
                 .build();
-        Long messageSubId = messageService.write(messageDto, donateType);
+        Long messageSubId = messageService.write(messageDto, donateType).toEntity().getMessageId();
         Donate donate = Donate.builder()
                 .amount(0)
                 .tossId(donateDto.getTossId())
