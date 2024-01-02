@@ -16,7 +16,7 @@ public class DonateService {
     private final MessageService messageService;
 
     @Transactional
-    public Long donateMoney(DonateDto donateDto, String donateType) {
+    public DonateDto donateMoney(DonateDto donateDto, String donateType) {
         MessageDto messageDto = MessageDto.builder()
                 .username(donateDto.getUsername())
                 .content(donateDto.getContent())
@@ -28,7 +28,8 @@ public class DonateService {
                 .telNumber(donateDto.getTelNumber())
                 .messageSubId(messageSubId)
                 .build();
-        return donateRepository.save(donate).getMessageSubId();
+        donateRepository.save(donate);
+        return donateDto;
     }
 
     public Integer donateSum() {

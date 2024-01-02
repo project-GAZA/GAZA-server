@@ -18,7 +18,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping
-    public ApiResponse writeMessage(@RequestBody MessageDto messageDto){
+    public ApiResponse<MessageDto> writeMessage(@RequestBody MessageDto messageDto){
         return ApiResponse.success(HttpStatusCode.CREATED,messageService.write(messageDto,MESSAGE));  //저장된 메시지 ID반환
     }
 
