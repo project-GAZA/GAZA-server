@@ -8,7 +8,6 @@ import io.junrock.GAZA.exception.ApiResponse;
 import io.junrock.GAZA.exception.HttpStatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
