@@ -1,6 +1,7 @@
 package io.junrock.GAZA.domain.message.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +12,7 @@ public class IpRenderingService {
             "X-Real-IP","REMOTE_ADDR"};
     private String ip;
 
+    @Transactional
     public String getIp(HttpServletRequest request){
         for(String header: headerType){
             ip=request.getHeader(header);
