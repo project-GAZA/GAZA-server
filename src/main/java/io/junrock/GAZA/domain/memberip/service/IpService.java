@@ -4,6 +4,7 @@ import io.junrock.GAZA.domain.memberip.dto.IpResponseDto;
 import io.junrock.GAZA.domain.memberip.repository.MemberIpRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class IpService {
     private final MemberIpRepository memberIpRepository;
+    @Transactional
     public boolean checkingIp(String ip,Long messageId,String type){
         List<IpResponseDto> ipList = memberIpRepository.findByIp(ip).stream()
                 .map(IpResponseDto::new)
