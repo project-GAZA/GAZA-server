@@ -8,6 +8,7 @@ import io.junrock.GAZA.exception.ApiResponse;
 import io.junrock.GAZA.exception.HttpStatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,8 @@ public class HomeController {
     private final MessageService messageService;
 
     @GetMapping
-    public ApiResponse<List<MessageResponseDto>> getList(PageRequestDto pageRequestDto, MessageSearchDto messageSearchDto) {
-        return ApiResponse.success(HttpStatusCode.OK,messageService.findAllMessages(pageGenerate(pageRequestDto), messageSearchDto));
+    public ResponseEntity<List<MessageResponseDto>> getList(PageRequestDto pageRequestDto, MessageSearchDto messageSearchDto) {
+        return ResponseEntity.ok(messageService.findAllMessages(pageGenerate(pageRequestDto), messageSearchDto));
     }
 
     private PageRequest pageGenerate(PageRequestDto dto) {
