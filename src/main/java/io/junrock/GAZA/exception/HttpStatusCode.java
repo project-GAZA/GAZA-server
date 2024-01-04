@@ -14,6 +14,5 @@ public enum HttpStatusCode {
     CONTAIN_BADWORD(451),
     NOT_FOUND_MESSAGE(406);
 
-
     private final int status;
 }
