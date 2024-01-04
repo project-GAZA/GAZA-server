@@ -25,7 +25,6 @@ import static io.junrock.GAZA.domain.message.dto.TypeMessage.LIKE;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class MessageService {
     private final MessageRepository messageRepository;
@@ -36,6 +35,7 @@ public class MessageService {
 
     private final MessageQueryRepository messageQueryRepository;
 
+    @Transactional
     public MessageDto write(MessageDto messageDto, String donateType) { //글 작성
         WordFiltering wordFiltering = new WordFiltering();
         if (messageDto.getUsername().length() <= MIN_LENGTH)
@@ -55,24 +55,19 @@ public class MessageService {
         return messageDto;
     }
 
-    @Transactional(readOnly = true)  //페이징 처리
-    public List<MessageResponseDto> findAll(PageRequest request) {
-        return messageRepository.findAll(request).stream()
-                .map(MessageResponseDto::new)
-                .collect(Collectors.toList());
-    }
-
     @Transactional(readOnly = true)
     public Long totalMessage() {
-        return messageRepository.donateMessageCount();
+        return messageRepository.count();
     }
 
+    @Transactional
     public Integer getCount(Long messageId, HttpServletRequest request, String type) {  //메시지 좋아요 기능 추가
         Message message = getMessage(messageId);
         String ip = ipRenderingService.getIp(request);
         return extractedCount(messageId, message, ip, type);
     }
 
+    @Transactional
     public Integer alertCountService(Long messageId, HttpServletRequest request, String type) {  //싫어요 기능 제한
         Message message = getMessage(messageId);
         String ip = ipRenderingService.getIp(request); //사용자IP 받아옴
@@ -81,10 +76,11 @@ public class MessageService {
 
     private Message getMessage(Long messageId) {
         return messageRepository.findById(messageId).orElseThrow(()
-                -> new IllegalStateException("존재하지 않는 메시지입니다!"));
+                -> new GazaException(ErrorCode.NOT_FOUND_MESSAGE));
     }
 
-    private int extractedCount(Long messageId, Message message, String ip, String type) {
+    @Transactional
+    public int extractedCount(Long messageId, Message message, String ip, String type) {
         MessageCountDto messageCountDto = new MessageCountDto(message);
 
         if (ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우

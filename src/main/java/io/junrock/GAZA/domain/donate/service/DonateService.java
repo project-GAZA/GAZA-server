@@ -32,6 +32,7 @@ public class DonateService {
         return donateDto;
     }
 
+    @Transactional(readOnly = true)
     public Integer donateSum() {
         return donateRepository.sumDonations();
     }
