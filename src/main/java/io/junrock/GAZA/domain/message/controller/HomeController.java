@@ -4,8 +4,6 @@ import io.junrock.GAZA.domain.message.dto.MessageResponseDto;
 import io.junrock.GAZA.domain.message.dto.MessageSearchDto;
 import io.junrock.GAZA.domain.message.dto.PageRequestDto;
 import io.junrock.GAZA.domain.message.service.MessageService;
-import io.junrock.GAZA.exception.ApiResponse;
-import io.junrock.GAZA.exception.HttpStatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;

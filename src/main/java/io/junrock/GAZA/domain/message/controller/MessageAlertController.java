@@ -1,8 +1,6 @@
 package io.junrock.GAZA.domain.message.controller;
 
 import io.junrock.GAZA.domain.message.service.MessageService;
-import io.junrock.GAZA.exception.ApiResponse;
-import io.junrock.GAZA.exception.HttpStatusCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
