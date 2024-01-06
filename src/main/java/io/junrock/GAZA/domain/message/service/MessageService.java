@@ -36,7 +36,7 @@ public class MessageService {
     private final MessageQueryRepository messageQueryRepository;
 
     @Transactional
-    public MessageDto write(MessageDto messageDto, String donateType) { //글 작성
+    public MessageDonateDto write(MessageDto messageDto, String donateType) { //글 작성
         WordFiltering wordFiltering = new WordFiltering();
         if (messageDto.getUsername().length() <= MIN_LENGTH)
             throw new GazaException(ErrorCode.NOT_ENOUGH_MESSAGE_LENGTH);
@@ -50,9 +50,15 @@ public class MessageService {
                 .cautionCount(0)
                 .donateType(donateType)
                 .build();
-        messageRepository.save(message);
+        Long messageSubId = messageRepository.save(message).getMessageId();
         message.messageUpdate(messageDto.getUsername() + "#" + message.getMessageId());
-        return messageDto;
+
+        MessageDonateDto messageDonateDto = MessageDonateDto.builder()
+                .username(messageDto.getUsername())
+                .content(messageDto.getContent())
+                .messageId(messageSubId)
+                .build();
+        return messageDonateDto;
     }
 
     @Transactional(readOnly = true)
@@ -86,23 +92,23 @@ public class MessageService {
         if (ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
             throw new GazaException(ErrorCode.EXIST_IP);
         }
-            int count = 0;
-            if (type.equals(LIKE)) {
-                messageRepository.updateLikeCount(messageId);
-                count = messageCountDto.getLikeCount() + 1;
-            }
-            if (type.equals(CAUTION)) {
-                messageRepository.updateCautionCount(messageId);
-                count = messageCountDto.getCautionCount() + 1;
-            }
+        int count = 0;
+        if (type.equals(LIKE)) {
+            messageRepository.updateLikeCount(messageId);
+            count = messageCountDto.getLikeCount() + 1;
+        }
+        if (type.equals(CAUTION)) {
+            messageRepository.updateCautionCount(messageId);
+            count = messageCountDto.getCautionCount() + 1;
+        }
 
-            MemberIp memberIp = MemberIp.builder()
-                    .ip(ip)
-                    .message(message)
-                    .type(type)
-                    .build();
-            memberIpRepository.save(memberIp);
-            return count;
+        MemberIp memberIp = MemberIp.builder()
+                .ip(ip)
+                .message(message)
+                .type(type)
+                .build();
+        memberIpRepository.save(memberIp);
+        return count;
     }
 
     @Transactional(readOnly = true)
