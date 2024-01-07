@@ -1,5 +1,6 @@
 package io.junrock.GAZA.domain.donate.service;
 
+import io.junrock.GAZA.domain.donate.dto.AmountDto;
 import io.junrock.GAZA.domain.donate.dto.DonateDto;
 import io.junrock.GAZA.domain.donate.dto.DonateResponseDto;
 import io.junrock.GAZA.domain.donate.entity.Donate;
@@ -52,13 +53,18 @@ public class DonateService {
     }
 
     @Transactional
-    public DonateResponseDto modifyDonate(Long donateId, int amount) {
+    public DonateResponseDto modifyDonate(Long donateId, AmountDto dto) {
         Donate donate = getDonate(donateId);
-        DonateResponseDto donateResponseDto = DonateResponseDto.builder()
-                .amount(amount)
-                .build();
-        donate.update(amount);
+        donate.update(dto.getAmount());
         donateRepository.save(donate);
+        DonateResponseDto donateResponseDto = DonateResponseDto.builder()
+                .donateId(donate.getDonateId())
+                .createDt(donate.getCreateDt())
+                .amount(dto.getAmount())
+                .tossId(donate.getTossId())
+                .telNumber(donate.getTelNumber())
+                .messageId(donate.getMessageSubId())
+                .build();
         return donateResponseDto;
     }
 
