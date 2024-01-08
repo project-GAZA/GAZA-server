@@ -1,5 +1,6 @@
 package io.junrock.GAZA.domain.donate.entity;
 
+import io.junrock.GAZA.domain.donate.dto.AmountDto;
 import io.junrock.GAZA.domain.message.entity.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,4 +31,8 @@ public class Donate extends BaseTimeEntity {
 
     @Column(name = "message_id")
     private Long messageSubId ;
+
+    public void update(int amount){
+        this.amount=amount;
+    }
 }

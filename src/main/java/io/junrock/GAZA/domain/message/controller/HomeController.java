@@ -24,7 +24,7 @@ public class HomeController {
         return ResponseEntity.ok(messageService.findAllMessages(pageGenerate(pageRequestDto), messageSearchDto));
     }
 
-    private PageRequest pageGenerate(PageRequestDto dto) {
+    public static PageRequest pageGenerate(PageRequestDto dto) {
         int page = dto.getPage();
         int size = dto.getSize();
         return PageRequest.of(page, size);
