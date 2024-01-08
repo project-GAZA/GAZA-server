@@ -1,5 +1,6 @@
 package io.junrock.GAZA.domain.message.controller;
 
+import io.junrock.GAZA.domain.message.dto.MessageDonateDto;
 import io.junrock.GAZA.domain.message.dto.MessageDto;
 import io.junrock.GAZA.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class MessageController {
     private final MessageService messageService;
 
     @PostMapping
-    public ResponseEntity<MessageDto> writeMessage(@RequestBody MessageDto messageDto){
+    public ResponseEntity<MessageDonateDto> writeMessage(@RequestBody MessageDto messageDto){
         return ResponseEntity.ok(messageService.write(messageDto,MESSAGE));  //저장된 메시지 DTO반환
     }
 
