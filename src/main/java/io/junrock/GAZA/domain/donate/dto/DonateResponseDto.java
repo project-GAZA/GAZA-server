@@ -20,6 +20,7 @@ public class DonateResponseDto {
     private String tossId;
     private String telNumber;
     private Long messageId;
+    private LocalDateTime modifyDt;
 
     public DonateResponseDto(Donate donate) {
         this.donateId = donate.getDonateId();
@@ -28,5 +29,6 @@ public class DonateResponseDto {
         this.tossId = donate.getTossId();
         this.telNumber = donate.getTelNumber();
         this.messageId = donate.getMessageSubId();
+        this.modifyDt=donate.getModifyDt();
     }
 }

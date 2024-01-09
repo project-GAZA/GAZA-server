@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="donate")
@@ -32,7 +35,12 @@ public class Donate extends BaseTimeEntity {
     @Column(name = "message_id")
     private Long messageSubId ;
 
+    @Column(name = "modify_dt")
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    private LocalDateTime modifyDt;
+
     public void update(int amount){
         this.amount=amount;
+        this.modifyDt=LocalDateTime.now();
     }
 }
