@@ -36,6 +36,7 @@ public class DonateService {
                 .tossId(donateDto.getTossId())
                 .telNumber(donateDto.getTelNumber())
                 .messageSubId(messageSubId)
+                .modifyDt(null)
                 .build();
         donateRepository.save(donate);
         return donateDto;
@@ -64,6 +65,7 @@ public class DonateService {
                 .tossId(donate.getTossId())
                 .telNumber(donate.getTelNumber())
                 .messageId(donate.getMessageSubId())
+                .modifyDt(donate.getModifyDt())
                 .build();
         return donateResponseDto;
     }
