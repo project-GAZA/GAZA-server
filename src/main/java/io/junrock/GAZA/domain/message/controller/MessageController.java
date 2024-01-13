@@ -2,6 +2,7 @@ package io.junrock.GAZA.domain.message.controller;
 
 import io.junrock.GAZA.domain.message.dto.MessageDonateDto;
 import io.junrock.GAZA.domain.message.dto.MessageDto;
+import io.junrock.GAZA.domain.message.dto.MessageTypeDto;
 import io.junrock.GAZA.domain.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +25,10 @@ public class MessageController {
     @GetMapping
     public ResponseEntity<Long> messageCount(){
         return ResponseEntity.ok(messageService.totalMessage());
+    }
+
+    @PatchMapping("/type/{messageId}")
+    public ResponseEntity<MessageTypeDto> modifyMessageType(@PathVariable Long messageId, @RequestBody MessageTypeDto typeDto){
+        return ResponseEntity.ok(messageService.modifyType(messageId,typeDto));
     }
 }
