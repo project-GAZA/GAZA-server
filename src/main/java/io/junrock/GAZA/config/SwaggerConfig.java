@@ -1,4 +1,4 @@
-package io.junrock.GAZA.domain.config;
+package io.junrock.GAZA.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
