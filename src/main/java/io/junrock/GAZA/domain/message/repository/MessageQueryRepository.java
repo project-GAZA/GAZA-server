@@ -17,7 +17,6 @@ import java.util.List;
 import static io.junrock.GAZA.domain.message.entity.QMessage.message;
 import static org.springframework.util.StringUtils.hasText;
 
-
 @Repository
 @RequiredArgsConstructor
 public class MessageQueryRepository {

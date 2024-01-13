@@ -44,4 +44,8 @@ public class Message extends BaseTimeEntity {
     public void messageUpdate(String username){
         this.username=username;
     }
+
+    public void modifyType(String donateType){
+        this.donateType=donateType;
+    }
 }
