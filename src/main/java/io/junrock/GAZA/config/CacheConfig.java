@@ -1,4 +1,4 @@
-package io.junrock.GAZA.domain.config;
+package io.junrock.GAZA.config;
 /*
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
