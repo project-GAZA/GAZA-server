@@ -32,6 +32,7 @@ public class MessageService {
     private final MemberIpRepository memberIpRepository;
     private final IpService ipService;
     private static final int MIN_LENGTH = 1;
+    private static final int INITIAL_COUNT=0;
 
     private final MessageQueryRepository messageQueryRepository;
 
@@ -46,8 +47,8 @@ public class MessageService {
                 .username(messageDto.getUsername())
                 .content(messageDto.getContent())
                 .userRole("ROLE_USER")
-                .likeCount(0)
-                .cautionCount(0)
+                .likeCount(INITIAL_COUNT)
+                .cautionCount(INITIAL_COUNT)
                 .donateType(donateType)
                 .build();
         Long messageSubId = messageRepository.save(message).getMessageId();
@@ -116,6 +117,14 @@ public class MessageService {
         return messageQueryRepository.findMessages(pageGenerate, messageSearchDto).stream()
                 .map(MessageResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public MessageTypeDto modifyType(Long messageId,MessageTypeDto typeDto) {
+        Message message = getMessage(messageId);
+        message.modifyType(typeDto.getDonateType());
+        messageRepository.save(message);
+        return typeDto;
     }
 }
 
