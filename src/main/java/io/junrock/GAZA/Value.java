@@ -12,4 +12,7 @@ public class Value {
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };
+
+    private Value() {
+    }
 }
