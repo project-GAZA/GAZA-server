@@ -4,6 +4,8 @@ import io.junrock.GAZA.domain.admin.dto.SignupDto;
 import io.junrock.GAZA.domain.admin.entity.Admin;
 import io.junrock.GAZA.domain.admin.entity.Authority;
 import io.junrock.GAZA.domain.admin.repostitory.AdminRepository;
+import io.junrock.GAZA.exception.ErrorCode;
+import io.junrock.GAZA.exception.GazaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class AdminService {
     @Transactional
     public SignupDto signupAdmin(SignupDto signupDto) {
         if (adminRepository.existsByAdminName(signupDto.getAdminName()))
-            throw new IllegalArgumentException("이미 존재하는 관리자입니다");
+            throw new GazaException(ErrorCode.EXIST_ADMIN);
         Admin admin = Admin.builder()
                 .adminName(signupDto.getAdminName())
                 .password(encoder.encode(signupDto.getPassword()))

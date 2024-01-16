@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 
 import static io.junrock.GAZA.domain.message.dto.TypeMessage.CAUTION;
 import static io.junrock.GAZA.domain.message.dto.TypeMessage.LIKE;
+import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.messageDtoMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +32,8 @@ public class MessageService {
     private final IpRenderingService ipRenderingService;
     private final MemberIpRepository memberIpRepository;
     private final IpService ipService;
-    private static final int MIN_LENGTH = 1;
-    private static final int INITIAL_COUNT=0;
+    public static final int MIN_LENGTH = 1;
+    public static final int INITIAL_COUNT=0;
 
     private final MessageQueryRepository messageQueryRepository;
 
@@ -43,14 +44,7 @@ public class MessageService {
             throw new GazaException(ErrorCode.NOT_ENOUGH_MESSAGE_LENGTH);
         if (wordFiltering.checkMessage(messageDto.getContent()))
             throw new GazaException(ErrorCode.CONTAIN_BADWORD);
-        Message message = Message.builder()
-                .username(messageDto.getUsername())
-                .content(messageDto.getContent())
-                .userRole("ROLE_USER")
-                .likeCount(INITIAL_COUNT)
-                .cautionCount(INITIAL_COUNT)
-                .donateType(donateType)
-                .build();
+        Message message = messageDtoMapper(messageDto, donateType);
         Long messageSubId = messageRepository.save(message).getMessageId();
         message.messageUpdate(messageDto.getUsername() + "#" + message.getMessageId());
 
