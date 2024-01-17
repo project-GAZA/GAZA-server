@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import static io.junrock.GAZA.domain.message.dto.TypeMessage.CAUTION;
 import static io.junrock.GAZA.domain.message.dto.TypeMessage.LIKE;
 import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.messageDtoMapper;
+import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.messageResponseDto;
 
 @Service
 @RequiredArgsConstructor
@@ -119,6 +120,12 @@ public class MessageService {
         message.modifyType(typeDto.getDonateType());
         messageRepository.save(message);
         return typeDto;
+    }
+
+    public MessageResponseDto findMessage(Long messageId) {
+        Message message=getMessage(messageId);
+        MessageResponseDto responseDto = messageResponseDto(message);
+        return responseDto;
     }
 }
 
