@@ -1,6 +1,7 @@
 package io.junrock.GAZA.mapper.messagemapper;
 
 import io.junrock.GAZA.domain.message.dto.MessageDto;
+import io.junrock.GAZA.domain.message.dto.MessageResponseDto;
 import io.junrock.GAZA.domain.message.entity.Message;
 import org.springframework.stereotype.Component;
 
@@ -18,5 +19,18 @@ public class MessageMapper {
                 .donateType(donateType)
                 .build();
         return message;
+    }
+
+    public static MessageResponseDto messageResponseDto(Message message) {
+        MessageResponseDto responseDto = MessageResponseDto.builder()
+                .messageId(message.getMessageId())
+                .content(message.getContent())
+                .createDt(message.getCreateDt())
+                .username(message.getUsername())
+                .likeCount(message.getLikeCount())
+                .cautionCount(message.getCautionCount())
+                .donateType(message.getDonateType())
+                .build();
+        return responseDto;
     }
 }
