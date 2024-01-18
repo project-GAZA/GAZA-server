@@ -29,6 +29,7 @@ public class DonateController {
 
     @PostMapping
     public ResponseEntity<DonateDto> donateTo(@RequestBody DonateDto donateDto){
+        System.out.println("donateDto = " + donateDto);
         return ResponseEntity.ok(donateService.donateMoney(donateDto,DONATE));
     }
 
