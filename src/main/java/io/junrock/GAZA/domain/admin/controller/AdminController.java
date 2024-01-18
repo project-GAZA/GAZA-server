@@ -1,7 +1,6 @@
 package io.junrock.GAZA.domain.admin.controller;
 
 import io.junrock.GAZA.domain.admin.dto.SignupDto;
-import io.junrock.GAZA.domain.admin.entity.Admin;
 import io.junrock.GAZA.domain.admin.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +14,9 @@ import javax.validation.Valid;
 @RequestMapping("/api/admin")
 public class AdminController {
     private final AdminService adminService;
+
     @PostMapping("/signup")
-    public ResponseEntity<SignupDto> registerAdmin(@Valid @RequestBody SignupDto signupDto){
+    public ResponseEntity<SignupDto> registerAdmin(@Valid @RequestBody SignupDto signupDto) {
         return ResponseEntity.ok(adminService.signupAdmin(signupDto));
     }
 }
