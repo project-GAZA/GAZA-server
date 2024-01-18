@@ -42,6 +42,7 @@ public class DonateController {
     @PatchMapping("/{donateId}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<DonateResponseDto> modifyAmount(@PathVariable Long donateId,@RequestBody AmountDto amount){
+        System.out.println("hello");
         return ResponseEntity.ok(donateService.modifyDonate(donateId,amount));
     }
 
