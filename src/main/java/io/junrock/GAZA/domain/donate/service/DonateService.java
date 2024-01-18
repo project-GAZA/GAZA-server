@@ -54,6 +54,7 @@ public class DonateService {
     public DonateResponseDto modifyDonate(Long donateId, AmountDto dto) {
         Donate donate = getDonate(donateId);
         donate.update(dto.getAmount());
+        // TODO: save 제거해보기
         donateRepository.save(donate);
         return donateResponseDto(dto, donate);
     }

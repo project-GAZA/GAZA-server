@@ -20,7 +20,7 @@ public class MemberIp {
     private Long ipId;
 
     private String ip;
-
+    // TODO: enum 으로 처리 memberType
     private String type;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "message_id")

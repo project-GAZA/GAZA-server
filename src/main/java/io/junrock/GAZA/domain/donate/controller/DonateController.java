@@ -29,22 +29,19 @@ public class DonateController {
 
     @PostMapping
     public ResponseEntity<DonateDto> donateTo(@RequestBody DonateDto donateDto){
-        System.out.println("donateDto = " + donateDto);
         return ResponseEntity.ok(donateService.donateMoney(donateDto,DONATE));
     }
 
     @GetMapping("/all")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<List<DonateResponseDto>> donateList(PageRequestDto pageRequestDto){
-        return ResponseEntity.ok(donateService.getList(pageGenerate(pageRequestDto)));
+        ResponseEntity<List<DonateResponseDto>> result = ResponseEntity.ok(donateService.getList(pageGenerate(pageRequestDto)));
+        return result;
     }
 
     @PatchMapping("/{donateId}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<DonateResponseDto> modifyAmount(@PathVariable Long donateId,@RequestBody AmountDto amount){
-        System.out.println("hello");
         return ResponseEntity.ok(donateService.modifyDonate(donateId,amount));
     }
-
-
 }

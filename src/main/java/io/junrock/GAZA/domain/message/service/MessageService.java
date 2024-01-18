@@ -108,6 +108,7 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
+    // TODO : 캐싱 처리하기 로컬캐시 -> 레디스 @Cachable 왜 안되는지 알아보기
     public List<MessageResponseDto> findAllMessages(PageRequest pageGenerate, MessageSearchDto messageSearchDto) {
         return messageQueryRepository.findMessages(pageGenerate, messageSearchDto).stream()
                 .map(MessageResponseDto::new)
