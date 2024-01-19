@@ -29,7 +29,7 @@ public class DonateController {
 
     @PostMapping
     public ResponseEntity<DonateDto> donateTo(@RequestBody DonateDto donateDto){
-        return ResponseEntity.ok(donateService.donateMoney(donateDto,DONATE));
+        return ResponseEntity.ok(donateService.donateMoney(donateDto,DONATE.getDonateType()));
     }
 
     @GetMapping("/all")

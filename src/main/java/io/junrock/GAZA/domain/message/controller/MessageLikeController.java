@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static io.junrock.GAZA.domain.message.dto.TypeMessage.LIKE;
+import static io.junrock.GAZA.domain.message.dto.ButtonType.LIKE;
+
 
 @CrossOrigin
 @RestController
@@ -17,6 +18,6 @@ public class MessageLikeController {
     private final MessageService messageService;
     @GetMapping("/{messageId}")
     public ResponseEntity<Integer> likeCounts(@PathVariable Long messageId, HttpServletRequest request){
-        return ResponseEntity.ok(messageService.getCount(messageId,request,LIKE));
+        return ResponseEntity.ok(messageService.getCount(messageId,request,LIKE.getButtonType()));
     }
 }
