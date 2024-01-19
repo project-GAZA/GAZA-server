@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static io.junrock.GAZA.domain.message.dto.TypeMessage.CAUTION;
+import static io.junrock.GAZA.domain.message.dto.ButtonType.CAUTION;
+
 
 @RestController
 @RequestMapping("/api/message/alert")
@@ -18,6 +19,6 @@ public class MessageAlertController {
 
     @GetMapping("/{messageId}")
     public ResponseEntity<Integer> alertCount(@PathVariable Long messageId, HttpServletRequest request){
-        return ResponseEntity.ok(messageService.alertCountService(messageId,request,CAUTION));
+        return ResponseEntity.ok(messageService.alertCountService(messageId,request,CAUTION.getButtonType()));
     }
 }

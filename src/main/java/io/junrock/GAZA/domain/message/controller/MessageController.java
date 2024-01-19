@@ -20,7 +20,7 @@ public class MessageController {
 
     @PostMapping
     public ResponseEntity<MessageDonateDto> writeMessage(@RequestBody MessageDto messageDto) {
-        return ResponseEntity.ok(messageService.write(messageDto, MESSAGE));  //저장된 메시지 DTO반환
+        return ResponseEntity.ok(messageService.write(messageDto, MESSAGE.getDonateType()));  //저장된 메시지 DTO반환
     }
 
     @GetMapping

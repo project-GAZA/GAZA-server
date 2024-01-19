@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.junrock.GAZA.domain.message.dto.TypeMessage.CAUTION;
-import static io.junrock.GAZA.domain.message.dto.TypeMessage.LIKE;
+import static io.junrock.GAZA.domain.message.dto.ButtonType.CAUTION;
+import static io.junrock.GAZA.domain.message.dto.ButtonType.LIKE;
 import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.messageDtoMapper;
 import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.messageResponseDto;
 
@@ -89,11 +89,11 @@ public class MessageService {
             throw new GazaException(ErrorCode.EXIST_IP);
         }
         int count = 0;
-        if (type.equals(LIKE)) {
+        if (type.equals(LIKE.getButtonType())) {
             messageRepository.updateLikeCount(messageId);
             count = messageCountDto.getLikeCount() + 1;
         }
-        if (type.equals(CAUTION)) {
+        if (type.equals(CAUTION.getButtonType())) {
             messageRepository.updateCautionCount(messageId);
             count = messageCountDto.getCautionCount() + 1;
         }
