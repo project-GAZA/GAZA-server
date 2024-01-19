@@ -6,8 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum TypeMessage {
-
-
     MESSAGE("message"),
     DONATE("donate");
     private String donateType;
