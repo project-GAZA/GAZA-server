@@ -22,8 +22,7 @@ import java.util.stream.Collectors;
 
 import static io.junrock.GAZA.domain.message.dto.ButtonType.CAUTION;
 import static io.junrock.GAZA.domain.message.dto.ButtonType.LIKE;
-import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.messageDtoMapper;
-import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.messageResponseDto;
+import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +34,7 @@ public class MessageService {
     private final IpService ipService;
     public static final int MIN_LENGTH = 1;
     public static final int INITIAL_COUNT=0;
+    public static final int PLUS_COUNT=1;
 
     private final MessageQueryRepository messageQueryRepository;
 
@@ -49,11 +49,7 @@ public class MessageService {
         Long messageSubId = messageRepository.save(message).getMessageId();
         message.messageUpdate(messageDto.getUsername() + "#" + message.getMessageId());
 
-        MessageDonateDto messageDonateDto = MessageDonateDto.builder()
-                .username(messageDto.getUsername())
-                .content(messageDto.getContent())
-                .messageId(messageSubId)
-                .build();
+        MessageDonateDto messageDonateDto = messageDonateMapper(messageDto, messageSubId);
         return messageDonateDto;
     }
 
@@ -63,46 +59,42 @@ public class MessageService {
     }
 
     @Transactional
-    public Integer getCount(Long messageId, HttpServletRequest request, String type) {  //메시지 좋아요 기능 추가
+    public Integer getCount(Long messageId, HttpServletRequest request, String buttonType) {  //메시지 좋아요 기능 추가
         Message message = getMessage(messageId);
         String ip = ipRenderingService.getIp(request);
-        return extractedCount(messageId, message, ip, type);
+        return extractedCount(messageId, message, ip, buttonType);
     }
-
+/*
     @Transactional
-    public Integer alertCountService(Long messageId, HttpServletRequest request, String type) {  //싫어요 기능 제한
+    public Integer alertCountService(Long messageId, HttpServletRequest request, String buttonType) {  //싫어요 기능 제한
         Message message = getMessage(messageId);
         String ip = ipRenderingService.getIp(request); //사용자IP 받아옴
-        return extractedCount(messageId, message, ip, type);
+        return extractedCount(messageId, message, ip, buttonType);
     }
-
+*/
     private Message getMessage(Long messageId) {
         return messageRepository.findById(messageId).orElseThrow(()
                 -> new GazaException(ErrorCode.NOT_FOUND_MESSAGE));
     }
 
     @Transactional
-    public int extractedCount(Long messageId, Message message, String ip, String type) {
+    public int extractedCount(Long messageId, Message message, String ip, String buttonType) {
         MessageCountDto messageCountDto = new MessageCountDto(message);
 
-        if (ipService.checkingIp(ip, messageId, type)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
+        if (ipService.checkingIp(ip, messageId, buttonType)) { //만약 동일한 IP가 좋아요를 누르지 않은 경우
             throw new GazaException(ErrorCode.EXIST_IP);
         }
-        int count = 0;
-        if (type.equals(LIKE.getButtonType())) {
+        int count = INITIAL_COUNT;
+        if (buttonType.equals(LIKE.getButtonType())) {
             messageRepository.updateLikeCount(messageId);
-            count = messageCountDto.getLikeCount() + 1;
+            count = messageCountDto.getLikeCount() + PLUS_COUNT;
         }
-        if (type.equals(CAUTION.getButtonType())) {
+        if (buttonType.equals(CAUTION.getButtonType())) {
             messageRepository.updateCautionCount(messageId);
-            count = messageCountDto.getCautionCount() + 1;
+            count = messageCountDto.getCautionCount() + PLUS_COUNT;
         }
 
-        MemberIp memberIp = MemberIp.builder()
-                .ip(ip)
-                .message(message)
-                .type(type)
-                .build();
+        MemberIp memberIp = memberIpMapper(message, ip, buttonType);
         memberIpRepository.save(memberIp);
         return count;
     }
