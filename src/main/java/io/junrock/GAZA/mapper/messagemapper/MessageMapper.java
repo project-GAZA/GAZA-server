@@ -1,5 +1,7 @@
 package io.junrock.GAZA.mapper.messagemapper;
 
+import io.junrock.GAZA.domain.memberip.entity.MemberIp;
+import io.junrock.GAZA.domain.message.dto.MessageDonateDto;
 import io.junrock.GAZA.domain.message.dto.MessageDto;
 import io.junrock.GAZA.domain.message.dto.MessageResponseDto;
 import io.junrock.GAZA.domain.message.entity.Message;
@@ -32,5 +34,23 @@ public class MessageMapper {
                 .donateType(message.getDonateType())
                 .build();
         return responseDto;
+    }
+
+    public static MessageDonateDto messageDonateMapper(MessageDto messageDto, Long messageSubId) {
+        MessageDonateDto messageDonateDto = MessageDonateDto.builder()
+                .username(messageDto.getUsername())
+                .content(messageDto.getContent())
+                .messageId(messageSubId)
+                .build();
+        return messageDonateDto;
+    }
+
+    public static MemberIp memberIpMapper(Message message, String ip, String type) {
+        MemberIp memberIp = MemberIp.builder()
+                .ip(ip)
+                .message(message)
+                .type(type)
+                .build();
+        return memberIp;
     }
 }
