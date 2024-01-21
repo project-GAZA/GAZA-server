@@ -1,5 +1,6 @@
 package io.junrock.GAZA.domain.message.controller;
 
+import io.junrock.GAZA.aop.Trace;
 import io.junrock.GAZA.domain.message.service.MessageService;
 import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class MessageAlertController {
     private final MessageService messageService;
 
     @GetMapping("/{messageId}")
+    @Trace
     public ResponseEntity<Integer> alertCount(@PathVariable Long messageId, HttpServletRequest request){
         return ResponseEntity.ok(messageService.getCount(messageId,request,CAUTION.getButtonType()));
     }

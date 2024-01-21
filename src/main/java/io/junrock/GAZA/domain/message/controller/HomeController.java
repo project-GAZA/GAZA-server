@@ -1,5 +1,6 @@
 package io.junrock.GAZA.domain.message.controller;
 
+import io.junrock.GAZA.aop.Trace;
 import io.junrock.GAZA.domain.message.dto.MessageResponseDto;
 import io.junrock.GAZA.domain.message.dto.MessageSearchDto;
 import io.junrock.GAZA.domain.message.dto.PageRequestDto;
@@ -20,6 +21,7 @@ public class HomeController {
     private final MessageService messageService;
 
     @GetMapping
+    @Trace
     public ResponseEntity<List<MessageResponseDto>> getList(PageRequestDto pageRequestDto, MessageSearchDto messageSearchDto) {
         return ResponseEntity.ok(messageService.findAllMessages(pageGenerate(pageRequestDto), messageSearchDto));
     }
