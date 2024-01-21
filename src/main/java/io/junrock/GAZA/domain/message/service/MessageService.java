@@ -1,5 +1,6 @@
 package io.junrock.GAZA.domain.message.service;
 
+import io.junrock.GAZA.aop.Trace;
 import io.junrock.GAZA.domain.memberip.entity.MemberIp;
 import io.junrock.GAZA.domain.memberip.repository.MemberIpRepository;
 import io.junrock.GAZA.domain.memberip.service.IpService;
@@ -59,19 +60,13 @@ public class MessageService {
     }
 
     @Transactional
+    @Trace
     public Integer getCount(Long messageId, HttpServletRequest request, String buttonType) {  //메시지 좋아요 기능 추가
         Message message = getMessage(messageId);
         String ip = ipRenderingService.getIp(request);
         return extractedCount(messageId, message, ip, buttonType);
     }
-/*
-    @Transactional
-    public Integer alertCountService(Long messageId, HttpServletRequest request, String buttonType) {  //싫어요 기능 제한
-        Message message = getMessage(messageId);
-        String ip = ipRenderingService.getIp(request); //사용자IP 받아옴
-        return extractedCount(messageId, message, ip, buttonType);
-    }
-*/
+
     private Message getMessage(Long messageId) {
         return messageRepository.findById(messageId).orElseThrow(()
                 -> new GazaException(ErrorCode.NOT_FOUND_MESSAGE));
@@ -100,6 +95,7 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
+    @Trace
     public List<MessageResponseDto> findAllMessages(PageRequest pageGenerate, MessageSearchDto messageSearchDto) {
         return messageQueryRepository.findMessages(pageGenerate, messageSearchDto).stream()
                 .map(MessageResponseDto::new)

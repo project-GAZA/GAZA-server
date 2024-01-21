@@ -4,6 +4,7 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.junrock.GAZA.aop.Trace;
 import io.junrock.GAZA.domain.message.dto.MessageSearchDto;
 import io.junrock.GAZA.domain.message.entity.Message;
 import io.junrock.GAZA.domain.message.entity.QMessage;
@@ -21,6 +22,7 @@ import static org.springframework.util.StringUtils.hasText;
 @RequiredArgsConstructor
 public class MessageQueryRepository {
     private final EntityManager em;
+    @Trace
     public List<Message> findMessages(Pageable pageable, MessageSearchDto messageSearchDto) {
 
         JPAQueryFactory query = new JPAQueryFactory(em);
