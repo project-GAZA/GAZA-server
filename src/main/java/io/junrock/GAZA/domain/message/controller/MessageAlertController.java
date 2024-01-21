@@ -2,7 +2,6 @@ package io.junrock.GAZA.domain.message.controller;
 
 import io.junrock.GAZA.aop.Trace;
 import io.junrock.GAZA.domain.message.service.MessageService;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
