@@ -63,7 +63,7 @@ jobs:
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker rm $(docker ps -a -q)
-            docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1 .
+            docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
             git pull
-            docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1 .
+            docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
             docker-compose up -d
