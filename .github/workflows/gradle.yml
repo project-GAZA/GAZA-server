@@ -71,4 +71,5 @@ jobs:
             docker rm $(docker ps -a -q)
             docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
             docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
+            cd GAZA-server
             docker-compose up
