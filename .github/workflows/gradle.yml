@@ -27,14 +27,49 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-
+    - uses: actions/checkout@v2
+    - name: Set YML
+      run: |
+          mkdir -p src/main/resources
+          echo "${{ secrets.PROPERTIES }}" | base64 --decode > src/main/resources/application.yml
+          find src
     - name: Add permission
       run: chmod +x gradlew
 
     - name: Test with Gradle
       run: ./gradlew test
 
+    - name: Clean with Gradle
+      run: ./gradlew clean
+
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      # uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      # with:
+      #  arguments: build
+      run: ./gradlew clean build
+
+ # cd:
+  #  runs-on: ubuntu-latest
+
+   # steps:
+    - name: docker build
+      run: | 
+        docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+        docker build -t ${{ secrets.USERNAME }}/gaza-server:0.0.1 .
+        docker push ${{ secrets.USERNAME }}/gaza-server:0.0.1
+
+    - name: Deploy
+      uses: appleboy/ssh-action@v0.1.8
       with:
-        arguments: build
+          host: ${{ secrets.NCP_HOST }}
+          username: ${{ secrets.NCP_USERNAME }}
+          password: ${{ secrets.NCP_PASSWORD }}
+          port: ${{ secrets.NCP_PORT }}
+          script: |
+            docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+            docker stop $(docker ps -a -q)
+            docker rm $(docker ps -a -q)
+            docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
+            docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
+            cd GAZA-server
+            docker-compose up -d
