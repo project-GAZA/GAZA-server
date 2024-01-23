@@ -43,10 +43,10 @@ jobs:
       #  arguments: build
       run: ./gradlew clean build
 
-  cd:
-    runs-on: ubuntu-latest
+ # cd:
+  #  runs-on: ubuntu-latest
 
-    steps:
+   # steps:
     - name: docker build
       run: | 
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
