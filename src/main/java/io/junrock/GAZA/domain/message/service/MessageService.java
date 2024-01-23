@@ -112,7 +112,7 @@ public class MessageService {
 
     public MessageResponseDto findMessage(Long messageId) {
         Message message=getMessage(messageId);
-        MessageResponseDto responseDto =  messageResponseDto(message);
+        MessageResponseDto responseDto = messageResponseDto(message);
         return responseDto;
     }
 }
