@@ -12,7 +12,7 @@ import java.util.Collections;
 public class AdminMapper {
     public static PasswordEncoder encoder;
     public static Admin adminMapper(SignupDto signupDto) {
-        Admin admin = Admin.builder()
+        Admin admin =  Admin.builder()
                 .adminName(signupDto.getAdminName())
                 .password(encoder.encode(signupDto.getPassword()))
                 .activated(true)
