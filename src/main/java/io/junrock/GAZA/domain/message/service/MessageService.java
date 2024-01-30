@@ -13,6 +13,10 @@ import io.junrock.GAZA.exception.GazaException;
 import io.peaceingaza.filtering.cusswordfilter.WordFiltering;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.Cache;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +64,6 @@ public class MessageService {
     }
 
     @Transactional
-    @Trace
     public Integer getCount(Long messageId, HttpServletRequest request, String buttonType) {  //메시지 좋아요 기능 추가
         Message message = getMessage(messageId);
         String ip = ipRenderingService.getIp(request);
@@ -95,6 +98,8 @@ public class MessageService {
     }
 
     @Transactional(readOnly = true)
+    @Caching(put = {@CachePut(cacheNames = "messageList")}
+            ,cacheable = {@Cacheable(cacheNames = "messageList")})
     @Trace
     public List<MessageResponseDto> findAllMessages(PageRequest pageGenerate, MessageSearchDto messageSearchDto) {
         return messageQueryRepository.findMessages(pageGenerate, messageSearchDto).stream()
@@ -110,6 +115,8 @@ public class MessageService {
         return typeDto;
     }
 
+    @Transactional(readOnly = true)
+    @Cacheable(value = "message",key = "#p0")
     public MessageResponseDto findMessage(Long messageId) {
         Message message=getMessage(messageId);
         MessageResponseDto responseDto = messageResponseDto(message);

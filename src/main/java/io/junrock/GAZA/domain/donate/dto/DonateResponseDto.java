@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisHash;
 
 import java.time.LocalDateTime;
 
@@ -29,6 +28,6 @@ public class DonateResponseDto {
         this.tossId = donate.getTossId();
         this.telNumber = donate.getTelNumber();
         this.messageId = donate.getMessageSubId();
-        this.modifyDt=donate.getModifyDt();
+        this.modifyDt = donate.getModifyDt();
     }
 }
