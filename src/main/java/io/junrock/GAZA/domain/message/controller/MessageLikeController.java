@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static io.junrock.GAZA.domain.message.dto.ButtonType.LIKE;
+import static io.junrock.GAZA.global.type.ButtonType.LIKE;
 
 
 @CrossOrigin

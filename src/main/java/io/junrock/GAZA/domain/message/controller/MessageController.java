@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static io.junrock.GAZA.domain.message.dto.TypeMessage.MESSAGE;
+import static io.junrock.GAZA.global.type.MessageType.MESSAGE;
 
 @CrossOrigin
 @RestController

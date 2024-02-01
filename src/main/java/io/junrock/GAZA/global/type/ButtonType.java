@@ -1,4 +1,4 @@
-package io.junrock.GAZA.domain.message.dto;
+package io.junrock.GAZA.global.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

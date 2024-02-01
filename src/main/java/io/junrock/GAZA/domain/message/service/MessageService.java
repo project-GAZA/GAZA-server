@@ -13,7 +13,6 @@ import io.junrock.GAZA.exception.GazaException;
 import io.peaceingaza.filtering.cusswordfilter.WordFiltering;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Cache;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -25,8 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.junrock.GAZA.domain.message.dto.ButtonType.CAUTION;
-import static io.junrock.GAZA.domain.message.dto.ButtonType.LIKE;
+import static io.junrock.GAZA.global.type.ButtonType.CAUTION;
+import static io.junrock.GAZA.global.type.ButtonType.LIKE;
 import static io.junrock.GAZA.mapper.messagemapper.MessageMapper.*;
 
 @Service
