@@ -20,18 +20,10 @@ services:
     container_name: app-container
     ports:
       - 8080:8080
+    env_file:
+      - "./.env"
     environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      SPRING_DATASOURCE_DRIVER: ${SPRING_DATASOURCE_DRIVER}
-      JWT_HEADER: ${JWT_HEADER}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      JWT_EXPIRATION: ${JWT_EXPIRATION}
-      AWS_ACCESSKEY: ${AWS_ACCESSKEY}
-      AWS_SECRETKEY: ${AWS_SECRETKEY}
-      AWS_ENDPOINT: ${AWS_ENDPOINT}
-      AWS_BUCKET: ${AWS_BUCKET}
+      - TZ=Asia/Seoul
     depends_on:
       - db
     links:
