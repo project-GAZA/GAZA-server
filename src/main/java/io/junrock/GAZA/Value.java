@@ -14,5 +14,6 @@ public class Value {
     };
 
     private Value() {
+
     }
 }
