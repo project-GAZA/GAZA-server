@@ -35,7 +35,7 @@ public class ImageController {
     }
 
     @GetMapping("/rand")
-    public ResponseEntity<List<ImageResponseDto>> getImage(){
-        return ResponseEntity.ok(imageService.getRandomImage());
+    public ResponseEntity<ImageResponseDto> getImage(@RequestParam String locationType){
+        return ResponseEntity.ok(imageService.getRandomImage(locationType));
     }
 }

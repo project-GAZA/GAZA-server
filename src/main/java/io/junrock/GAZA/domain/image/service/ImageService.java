@@ -12,12 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.junrock.GAZA.global.type.ImageType.FOOTER;
-import static io.junrock.GAZA.global.type.ImageType.MAIN;
 
 @Service
 @RequiredArgsConstructor
@@ -46,19 +43,16 @@ public class ImageService {
                 .collect(Collectors.toList());
     }
 
-    public List<ImageResponseDto> getRandomImage() {
-        List<ImageResponseDto> mainImage = getMainImage(MAIN.getLocationType());
-        List<ImageResponseDto> footerImage = getMainImage(FOOTER.getLocationType());
-        List<ImageResponseDto> imageStorage = Arrays.asList(mainImage.get(getRandomIndex(mainImage))
-                , footerImage.get(getRandomIndex(footerImage)));
-        return imageStorage;
+    @Transactional(readOnly = true)
+    public ImageResponseDto getRandomImage(String locationType) {
+        List<ImageResponseDto> mainImage = getMainImage(locationType); //footer이미지만 들어있는 배열
+        return mainImage.get(getRandomIndex(mainImage));
     }
 
     private int getRandomIndex(List<ImageResponseDto> randomImage) {
         return (int) (Math.random() * randomImage.size());
     }
 
-    @Transactional(readOnly = true)
     private List<ImageResponseDto> getMainImage(String locationType) {
         return imageRepository.findAllByLocationType(locationType)
                 .stream()
@@ -66,7 +60,6 @@ public class ImageService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     private Image getImage(ImageRequestDto requestDto, MultipartFile file) {
         return Image.builder()
                 .imageUrl(s3Uploader.uploadImage(file))
@@ -75,7 +68,6 @@ public class ImageService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
     private Image findImage(Long imageId) {
         return imageRepository.findById(imageId)
                 .orElseThrow(() -> new GazaException(ErrorCode.NOT_FOUND_IMAGE));
