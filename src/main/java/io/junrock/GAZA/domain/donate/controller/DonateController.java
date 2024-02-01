@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static io.junrock.GAZA.domain.message.controller.HomeController.pageGenerate;
-import static io.junrock.GAZA.domain.message.dto.TypeMessage.DONATE;
+import static io.junrock.GAZA.global.type.MessageType.DONATE;
 
 @CrossOrigin
 @RestController
