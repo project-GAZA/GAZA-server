@@ -10,19 +10,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import static io.junrock.GAZA.VV.*;
+
 @Configuration
 public class S3Config {
-    @Value("${cloud.aws.credentials.accessKey}")
-    private String accessKey;
+    //@Value("${cloud.aws.credentials.accessKey}")
+    private String accessKey=ACCESSKEY;
 
-    @Value("${cloud.aws.credentials.secretKey}")
-    private String secretKey;
+   // @Value("${cloud.aws.credentials.secretKey}")
+    private String secretKey=SECRETKEY;
 
-    @Value("${cloud.aws.region.static}")
-    private String region;
+    //@Value("${cloud.aws.region.static}")
+    private String region=REGION;
 
-    @Value("${cloud.aws.s3.endpoint}")
-    private String endPoint;
+    //@Value("${cloud.aws.s3.endpoint}")
+    private String endPoint=ENDPOINT;
 
     @Bean
     public AmazonS3Client amazonS3Client() {

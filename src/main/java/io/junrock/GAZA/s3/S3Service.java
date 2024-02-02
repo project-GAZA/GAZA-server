@@ -12,14 +12,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static io.junrock.GAZA.VV.BUCKET;
+
 @Component
 @RequiredArgsConstructor
 public class S3Service {
     private final AmazonS3Client amazonS3Client;
     private static final String FOLDER_PATH="image/";
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+    //@Value("${cloud.aws.s3.bucket}")
+    private String bucket=BUCKET;
 
     public String uploadImage(MultipartFile file) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
