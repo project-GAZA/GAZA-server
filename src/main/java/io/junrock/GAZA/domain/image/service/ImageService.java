@@ -4,7 +4,6 @@ import io.junrock.GAZA.domain.image.dto.ImageRequestDto;
 import io.junrock.GAZA.domain.image.dto.ImageResponseDto;
 import io.junrock.GAZA.domain.image.entity.Image;
 import io.junrock.GAZA.domain.image.repository.ImageRepository;
-import io.junrock.GAZA.s3.S3Service;
 import io.junrock.GAZA.exception.ErrorCode;
 import io.junrock.GAZA.exception.GazaException;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    private final S3Service s3Uploader;
+    //private final S3Service s3Uploader;
     private final ImageRepository imageRepository;
 
     @Transactional
@@ -31,7 +30,7 @@ public class ImageService {
     @Transactional
     public void delete(Long imageId) {
         Image image = findImage(imageId);
-        s3Uploader.deleteS3Image(image.getFileName()); //S3 버킷 이미지 삭제
+       // s3Uploader.deleteS3Image(image.getFileName()); //S3 버킷 이미지 삭제
         imageRepository.deleteById(imageId); // DB이미지 삭제
     }
 
@@ -62,7 +61,7 @@ public class ImageService {
 
     private Image getImage(ImageRequestDto requestDto, MultipartFile file) {
         return Image.builder()
-                .imageUrl(s3Uploader.uploadImage(file))
+               // .imageUrl(s3Uploader.uploadImage(file))
                 .fileName(file.getOriginalFilename())
                 .locationType(requestDto.getLocationType())
                 .build();

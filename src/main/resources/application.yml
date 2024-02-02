@@ -35,16 +35,3 @@ jwt:
   #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
   secret: ${JWT_SECRET_KEY}
   token-validity-in-seconds: ${JWT_EXPIRATION} # ttl (초)
-
-cloud:
-  aws:
-    credentials:
-      accessKey: ${AWS_ACCESS_KEY}
-      secretKey: ${AWS_SECRET_KEY}
-    stack:
-      auto: false
-    region:
-      static: ap-northeast-2
-    s3:
-      endpoint: ${AWS_ENDPOINT}
-      bucket: ${AWS_BUCKET}
