@@ -45,6 +45,11 @@ jobs:
   env:
     name: setup environment variables
     runs-on: ubuntu-latest
+    steps:
+      - name: Get variables
+        id: var
+        run:
+          echo "get env"
     outputs:
       branch: ${{ inputs.branch || github.ref_name }}
 
