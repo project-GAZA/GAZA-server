@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    //private final S3Service s3Uploader;
     private final ImageRepository imageRepository;
 
     @Transactional
@@ -30,7 +29,6 @@ public class ImageService {
     @Transactional
     public void delete(Long imageId) {
         Image image = findImage(imageId);
-       // s3Uploader.deleteS3Image(image.getFileName()); //S3 버킷 이미지 삭제
         imageRepository.deleteById(imageId); // DB이미지 삭제
     }
 
