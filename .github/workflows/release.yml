@@ -53,6 +53,7 @@ jobs:
     outputs:
       branch: ${{ inputs.branch || github.ref_name }}
 
+
   build:
     needs: env
     runs-on: ubuntu-latest
@@ -70,6 +71,7 @@ jobs:
 
     - name: docker build
       run: | 
+        ./gradlew clean build --parallel
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
         echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
         git pull origin ${{ needs.env.outputs.branch }}
