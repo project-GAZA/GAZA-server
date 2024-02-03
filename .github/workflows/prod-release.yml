@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: build & deploy
+name: Dev build & deploy
 on:
   workflow_dispatch:
     inputs:
@@ -18,7 +18,7 @@ on:
         type: choice
         options:
           - ''
-          - dev
+          - prod
       release_message:
         description: 릴리즈 메시지
         type: string
@@ -85,9 +85,9 @@ jobs:
     - name: Deploy
       uses: appleboy/ssh-action@v0.1.8
       with:
-          host: ${{ secrets.NCP_HOST }}
-          username: ${{ secrets.NCP_USERNAME }}
-          password: ${{ secrets.NCP_PASSWORD }}
+          host: ${{ secrets.PROD_NCP_HOST }}
+          username: ${{ secrets.PROD_NCP_USERNAME }}
+          password: ${{ secrets.PROD_NCP_PASSWORD }}
           port: ${{ secrets.NCP_PORT }}
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
