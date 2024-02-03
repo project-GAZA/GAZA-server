@@ -35,8 +35,11 @@ on:
       branch:
         description: 브랜치
         type: string
+      release_message:
+        description: 릴리즈 메시지
+        type: string
 
-run-name: 'stage: ${{ inputs.stage_choice }} release : ${{ inputs.branch}}'
+run-name: 'stage: ${{ inputs.stage_choice }} release : ${{ inputs.branch }}'
 
 jobs:
   build:
