@@ -1,0 +1,37 @@
+spring: #띄어쓰기 없음
+  datasource: #띄어쓰기 2칸
+    url: jdbc:mysql://localhost:3306/gazadb?characterEncoding=UTF-8&useSSL=false&serverTimezone=UTC&&allowPublicKeyRetrieval=true #4칸
+    username: root
+    password: wnstjr6522
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  jpa: #띄어쓰기 2칸
+    hibernate: #띄어쓰기 4칸
+      ddl-auto: update #띄어쓰기 6칸
+    properties: #띄어쓰기 4칸
+      hibernate: #띄어쓰기 6칸
+        # show_sql: true #띄어쓰기 8칸
+        format_sql: true #띄어쓰기 8칸
+        default_batch_fetch_size: 100
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+
+logging.level: #띄어쓰기 없음
+  org.hibernate.SQL: debug #띄어쓰기 2칸
+  org.hibernate.type: info
+  com:
+    amazonaws:
+      util:
+        EC2MetadataUtils: ERROR
+
+jwt:
+  header: ${JWT_HEADER}
+  #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
+  secret: ${JWT_SECRET_KEY}
+  token-validity-in-seconds: ${JWT_EXPIRATION} # ttl (초)
