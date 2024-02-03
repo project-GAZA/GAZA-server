@@ -39,11 +39,17 @@ on:
         description: 릴리즈 메시지
         type: string
 
-run-name: 'build on stage: ${{ inputs.stage_choice }} branch: ${{ inputs.branch || github.ref_name }}'
+run-name: 'build on stage: ${{ inputs.stage_choice }} & branch: ${{ inputs.branch || github.ref_name }}'
 
 jobs:
-  build:
+  env:
+    name: setup environment variables
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ inputs.branch || github.ref_name }}
 
+  build:
+    needs: env
     runs-on: ubuntu-latest
 
     outputs:
@@ -60,9 +66,9 @@ jobs:
     - name: docker build
       run: | 
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-        echo "git will pull origin : [${{ needs.deploy.outputs.branch }}]"
-        git pull origin ${{ needs.deploy.outputs.branch }}
-        git checkout ${{ needs.deploy.outputs.branch }}
+        echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
+        git pull origin ${{ needs.env.outputs.branch }}
+        git checkout ${{ needs.env.outputs.branch }}
         docker build -t ${{ secrets.USERNAME }}/gaza-server:0.0.1 .
         docker push ${{ secrets.USERNAME }}/gaza-server:0.0.1
 
@@ -80,6 +86,5 @@ jobs:
             docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
             docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
             cd GAZA-server
-            echo "git will pull origin : ${{inputs.branch}}"
             git pull origin ${{inputs.branch}}
             docker-compose up -d
