@@ -72,5 +72,5 @@ jobs:
             docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
             docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
             cd GAZA-server
-            git pull origin main
+            git pull origin feature/junseok
             docker-compose up -d
