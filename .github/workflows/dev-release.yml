@@ -5,7 +5,7 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: build & deploy
+name: Dev build & deploy
 on:
   workflow_dispatch:
     inputs:
@@ -35,14 +35,31 @@ on:
       branch:
         description: 브랜치
         type: string
+      release_message:
+        description: 릴리즈 메시지
+        type: string
 
-run-name: '[${{ inputs.stage_choice || inputs.branch }}]'
+run-name: 'build on stage: ${{ inputs.stage_choice }} & branch: ${{ inputs.branch || github.ref_name }}'
 
 jobs:
-  build:
+  env:
+    name: setup environment variables
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get variables
+        id: var
+        run:
+          echo "get env"
+    outputs:
+      branch: ${{ inputs.branch || github.ref_name }}
 
+
+  build:
+    needs: env
     runs-on: ubuntu-latest
 
+    outputs:
+      id: build_output
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
@@ -51,15 +68,19 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     - uses: actions/checkout@v2
- # cd:
-  #  runs-on: ubuntu-latest
 
-   # steps:
     - name: docker build
-      run: | 
+      run: |
+        chmod +x gradlew
+        ./gradlew clean build --parallel
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-        docker build -t ${{ secrets.USERNAME }}/gaza-server:0.0.1 .
-        docker push ${{ secrets.USERNAME }}/gaza-server:0.0.1
+        echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
+        git pull origin ${{ needs.env.outputs.branch }}
+        git checkout ${{ needs.env.outputs.branch }}
+        echo "git checkout finish"
+        docker build -t ${{ secrets.USERNAME }}/gaza-0.0.1-snapshot .
+        echo "docker build finish"        
+        docker push ${{ secrets.USERNAME }}/gaza-0.0.1-snapshot
 
     - name: Deploy
       uses: appleboy/ssh-action@v0.1.8
@@ -72,8 +93,8 @@ jobs:
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
-            docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
-            docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
+            docker rmi ${{ secrets.USERNAME }}/gaza-0.0.1-snapshot
+            docker pull ${{ secrets.USERNAME }}/gaza-0.0.1-snapshot
             cd GAZA-server
-            git pull origin main
+            git pull origin ${{ needs.env.outputs.branch }}
             docker-compose up -d
