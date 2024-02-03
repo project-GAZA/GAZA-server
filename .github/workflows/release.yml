@@ -70,7 +70,8 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: docker build
-      run: | 
+      run: |
+        chmod +x gradlew
         ./gradlew clean build --parallel
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
         echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
