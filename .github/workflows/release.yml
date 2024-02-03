@@ -75,5 +75,6 @@ jobs:
             docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
             docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
             cd GAZA-server
+            echo "git will pull origin : ${{inputs.branch}}"
             git pull origin ${{inputs.branch}}
             docker-compose up -d
