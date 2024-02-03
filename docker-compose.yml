@@ -23,7 +23,7 @@ services:
     env_file:
       - "./.env"
     environment:
-      - Dcom.amazonaws.sdk.disableEc2Metadata=true
+      - TZ=Asis/Seoul
     depends_on:
       - db
     links:
