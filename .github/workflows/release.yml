@@ -74,7 +74,9 @@ jobs:
         echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
         git pull origin ${{ needs.env.outputs.branch }}
         git checkout ${{ needs.env.outputs.branch }}
+        echo "git checkout finish"
         docker build -t gaza-server:0.0.1 .
+        echo "docker build finish"        
         docker push gaza-server:0.0.1
 
     - name: Deploy
