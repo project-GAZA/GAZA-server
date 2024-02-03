@@ -39,12 +39,16 @@ on:
         description: 릴리즈 메시지
         type: string
 
-run-name: 'stage: ${{ inputs.stage_choice }} release : ${{ inputs.branch }}'
+run-name: 'stage: ${{ inputs.stage_choice }} release : ${{ inputs.branch || github.ref_name }}'
 
 jobs:
   build:
 
     runs-on: ubuntu-latest
+
+    outputs:
+      stage: ${{ env.stage }}
+      branch: ${{ inputs.branch || github.ref_name }}
 
     steps:
     - uses: actions/checkout@v3
@@ -61,9 +65,9 @@ jobs:
     - name: docker build
       run: | 
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-        echo "git will pull origin : [${{ inputs.branch }}]"
-        git pull origin ${{ inputs.branch }}
-        git checkout ${{ inputs.branch }}
+        echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
+        git pull origin ${{ needs.env.outputs.branch }}
+        git checkout ${{ needs.env.outputs.branch }}
         docker build -t ${{ secrets.USERNAME }}/gaza-server:0.0.1 .
         docker push ${{ secrets.USERNAME }}/gaza-server:0.0.1
 
