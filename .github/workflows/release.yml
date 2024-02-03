@@ -78,9 +78,9 @@ jobs:
         git pull origin ${{ needs.env.outputs.branch }}
         git checkout ${{ needs.env.outputs.branch }}
         echo "git checkout finish"
-        docker build -t gaza-server:0.0.1 .
+        docker build -t GAZA-0.0.1-SNAPSHOT .
         echo "docker build finish"        
-        docker push gaza-server:0.0.1
+        docker push GAZA-0.0.1-SNAPSHOT
 
     - name: Deploy
       uses: appleboy/ssh-action@v0.1.8
@@ -93,8 +93,8 @@ jobs:
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
-            docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
-            docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
+            docker rmi ${{ secrets.USERNAME }}/GAZA-0.0.1-SNAPSHOT
+            docker pull ${{ secrets.USERNAME }}/GAZA-0.0.1-SNAPSHOT
             cd GAZA-server
             git pull origin ${{ needs.env.outputs.branch }}
             docker-compose up -d
