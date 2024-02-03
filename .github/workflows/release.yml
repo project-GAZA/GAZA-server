@@ -58,7 +58,7 @@ jobs:
     - name: docker build
       run: | 
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-        echo "git will pull origin : ${{inputs.branch}}"
+        echo "git will pull origin : [[ "${{inputs.branch}}" ]]"
         git pull origin ${{inputs.branch}}
         docker build -t ${{ secrets.USERNAME }}/gaza-server:0.0.1 .
         docker push ${{ secrets.USERNAME }}/gaza-server:0.0.1
