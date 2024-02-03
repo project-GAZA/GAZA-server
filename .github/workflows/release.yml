@@ -74,8 +74,8 @@ jobs:
         echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
         git pull origin ${{ needs.env.outputs.branch }}
         git checkout ${{ needs.env.outputs.branch }}
-        docker build -t ${{ secrets.USERNAME }}/gaza-server:0.0.1 .
-        docker push ${{ secrets.USERNAME }}/gaza-server:0.0.1
+        docker build -t gaza-server:0.0.1 .
+        docker push gaza-server:0.0.1
 
     - name: Deploy
       uses: appleboy/ssh-action@v0.1.8
@@ -91,5 +91,5 @@ jobs:
             docker rmi ${{ secrets.USERNAME }}/gaza-server:0.0.1
             docker pull ${{ secrets.USERNAME }}/gaza-server:0.0.1
             cd GAZA-server
-            git pull origin ${{inputs.branch}}
+            git pull origin ${{ needs.env.outputs.branch }}
             docker-compose up -d
