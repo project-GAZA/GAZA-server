@@ -17,24 +17,24 @@ public class HomeBanner extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "main_first_title") //글
     private String mainFirstTitle;
-    @Column
+    @Column(name = "main_first_html") //css
     private String mainFirstHtml;
 
-    @Column
+    @Column(name = "main_second_title")
     private String mainSecondTitle;
-    @Column
+    @Column(name = "main_second_html")
     private String mainSecondHtml;
 
-    @Column
+    @Column(name = "main_third_title")
     private String mainThirdTitle;
-    @Column
+    @Column(name = "main_third_title")
     private String mainThirdHtml;
 
-    @Column
+    @Column(name = "image_url")
     private String imageUrl;
 
-    @Column
+    @Column(name = "activated")
     private Boolean activated;
 }
