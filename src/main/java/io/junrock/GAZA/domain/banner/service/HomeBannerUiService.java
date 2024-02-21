@@ -5,15 +5,13 @@ import io.junrock.GAZA.domain.ui.dto.CommonImage;
 import io.junrock.GAZA.domain.ui.dto.CommonTitle;
 import io.junrock.GAZA.domain.ui.dto.CommonUrl;
 import io.junrock.GAZA.domain.ui.dto.HomeBannerDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class HomeBannerUiService {
     private final HomeBannerService homeBannerService;
-
-    public HomeBannerUiService(HomeBannerService homeBannerService) {
-        this.homeBannerService = homeBannerService;
-    }
 
     public HomeBannerDto getLivedHomeBannerUi() {
         final HomeBanner homeBanner = getLivedHomeBanner();

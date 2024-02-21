@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface HomeBannerRepository extends JpaRepository<HomeBanner, Long> {
     @Transactional(readOnly = true)
-    Optional<HomeBanner> findTopByActivatedOrderById();
+    Optional<HomeBanner> findTopByActivatedTrueOrderById();
 }
