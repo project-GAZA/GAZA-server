@@ -1,9 +1,15 @@
 package io.junrock.GAZA.domain.ui.dto;
 
 import io.junrock.GAZA.domain.banner.entity.HomeBanner;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class CommonTitle {
     private CommonText mainFirstTitle;
     private CommonText mainSecondTitle;
