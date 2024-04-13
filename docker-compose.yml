@@ -16,14 +16,14 @@ services:
       - spring-network
 
   app:
-    image: junseok1204/gaza-server:0.0.1
+    image: junseok1204/gaza-0.0.1-snapshot
     container_name: app-container
     ports:
       - 8080:8080
     env_file:
       - "./.env"
     environment:
-      - Dcom.amazonaws.sdk.disableEc2Metadata=true
+      - TZ=Asis/Seoul
     depends_on:
       - db
     links:

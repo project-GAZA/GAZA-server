@@ -71,11 +71,11 @@ jobs:
 
     - name: docker build
       run: |
+        echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
+        git pull origin ${{ needs.env.outputs.branch }}
         chmod +x gradlew
         ./gradlew clean build --parallel
         docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-        echo "git will pull origin : [${{ needs.env.outputs.branch }}]"
-        git pull origin ${{ needs.env.outputs.branch }}
         git checkout ${{ needs.env.outputs.branch }}
         echo "git checkout finish"
         docker build -t ${{ secrets.USERNAME }}/gaza-0.0.1-snapshot .
@@ -91,8 +91,8 @@ jobs:
           port: ${{ secrets.NCP_PORT }}
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-            docker stop $(docker ps -a -q)
-            docker rm $(docker ps -a -q)
+            docker stop ${{ secrets.DOCKER_APP_CONTAINER }}
+            docker rm ${{ secrets.DOCKER_APP_CONTAINER }}
             docker rmi ${{ secrets.USERNAME }}/gaza-0.0.1-snapshot
             docker pull ${{ secrets.USERNAME }}/gaza-0.0.1-snapshot
             cd GAZA-server
