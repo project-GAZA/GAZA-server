@@ -33,18 +33,18 @@
 - 사용자가 메시지만 남겼는지 혹은 후원도 같이 했는지 구분을 할 줄 알아야한다.
 
 ## 화면 구성 📺
-|  메인 페이지  |  응원메시지 카테코리 선택페이지   |
+|  메인 페이지  |  응원 메시지 목록 페이지   |
 | :-------------------------------------------: | :------------: |
-|  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/28f11e9d-d354-469f-8303-3d89b7731940"/> |  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/2ba63dfa-553e-46d7-87b7-1813ed74aba5">|  
-| 응원 메시지 작성 페이지   |  후원 페이지   |  
-| <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/0750b7d6-03d5-42bd-a074-c2a45b9d12f2"/>   |  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/44176d77-21ea-4b69-ad82-750a4a864256"/>     |
-| 댓글 상세보기 페이지   |  카페 상세 정보 페이지   |  
-| <img width="500" src="https://github.com/CafeCheckin/CafeCheckin/assets/56196986/33f1fec1-d92a-4176-bfe0-214835b7da47"/>   |  <img width="500" src="https://github.com/CafeCheckin/CafeCheckin/assets/56196986/94710406-e69f-4c5e-88bc-ddc161c0ccda"/>     |
+|  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/28f11e9d-d354-469f-8303-3d89b7731940"/> |  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/6a7e6e5f-3c36-4dd3-ba6c-67a6ee7c051f">|  
+| 응원메시지 카테고리 선택 페이지   |  응원 메시지 작성 페이지   |  
+| <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/2ba63dfa-553e-46d7-87b7-1813ed74aba5"/>   |  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/0750b7d6-03d5-42bd-a074-c2a45b9d12f2"/>     |
+|  후원 페이지   |  
+| <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/44176d77-21ea-4b69-ad82-750a4a864256"/>     |
 
 ---
 
 ## DB구조도
-![image](https://github.com/CafeCheckin/CafeCheckin/assets/56196986/688eb59c-713d-4443-8d08-d1aea8bcbc78)
+<img width="866" alt="image" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/99048974-4315-4fd1-abf2-b8ee1ae6283f">
 
 ---
 
@@ -54,8 +54,7 @@
 ---
 
 ## 기능정리
-1. 유저 등록, 조회 수정, 삭제(탈퇴)
-2. 카페 리뷰 등록, 조회, 수정, 삭제, 좋아요표시
-3. 게시글 등록, 조회, 수정, 삭제, 좋아요 표시
+1. 메시지 작성
+2. 동일한 IP당 하나의 메시지에 하나의 좋아요만 가능
+3. 토스를 통한 후원 기능
 4. 페이징 처리
-5. Session Auth
