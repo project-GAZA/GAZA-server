@@ -33,11 +33,11 @@
 - 사용자가 메시지만 남겼는지 혹은 후원도 같이 했는지 구분을 할 줄 알아야한다.
 
 ## 화면 구성 📺
-|  메인 페이지  |  메인 페이지   |
+|  메인 페이지  |  응원메시지 카테코리 선택페이지   |
 | :-------------------------------------------: | :------------: |
-|  <img width="500" src="https://github.com/CafeCheckin/CafeCheckin/assets/56196986/a55006f1-d3e8-4d27-9d0d-31718141dbb8"/> |  <img width="500" src="https://github.com/CafeCheckin/CafeCheckin/assets/56196986/10ebee86-ecd9-4dae-88d2-05eaebba2bea">|  
-| 게시글 목록 페이지   |  게사판 댓글 작성 페이지   |  
-| <img width="500" src="https://github.com/CafeCheckin/CafeCheckin/assets/56196986/93514b68-1ec9-4ef9-80f2-78e9e22ef1a0"/>   |  <img width="500" src="https://github.com/CafeCheckin/CafeCheckin/assets/56196986/9e4bce96-a695-4cc7-9ccc-708a860b3bec"/>     |
+|  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/28f11e9d-d354-469f-8303-3d89b7731940"/> |  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/2ba63dfa-553e-46d7-87b7-1813ed74aba5">|  
+| 응원 메시지 작성 페이지   |  후원 페이지   |  
+| <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/0750b7d6-03d5-42bd-a074-c2a45b9d12f2"/>   |  <img width="500" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/44176d77-21ea-4b69-ad82-750a4a864256"/>     |
 | 댓글 상세보기 페이지   |  카페 상세 정보 페이지   |  
 | <img width="500" src="https://github.com/CafeCheckin/CafeCheckin/assets/56196986/33f1fec1-d92a-4176-bfe0-214835b7da47"/>   |  <img width="500" src="https://github.com/CafeCheckin/CafeCheckin/assets/56196986/94710406-e69f-4c5e-88bc-ddc161c0ccda"/>     |
 
