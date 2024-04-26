@@ -49,7 +49,8 @@
 ---
 
 ## System Architecture
-<img width="630" alt="image" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/58e105f3-e627-46d5-8c5f-d0adbb1e0f61">
+<img width="858" alt="image" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/2f645adf-d6ec-4d94-9b56-a79ea925a539">
+
 
 
 ---
