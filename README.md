@@ -49,7 +49,9 @@
 ---
 
 ## System Architecture
-![image](https://github.com/CafeCheckin/CafeCheckin/assets/56196986/9bca1262-770e-4f70-ac78-47b53a27997b)
+<img width="858" alt="image" src="https://github.com/project-GAZA/GAZA-server/assets/56196986/2f645adf-d6ec-4d94-9b56-a79ea925a539">
+
+
 
 ---
 
